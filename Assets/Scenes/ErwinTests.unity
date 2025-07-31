@@ -211,20 +211,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 179712209}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a68080c37d6ed24780ace01bda56406, type: 3}
+  m_Script: {fileID: 11500000, guid: d01091a58d881fb46848b0b4f356328f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 5
   acceleration: 10
-  maxSpeed: 5
   jumpForce: 5
-  groundCheckDistance: 0.2
+  groundCheckDistance: 0.3
   groundLayer:
     serializedVersion: 2
-    m_Bits: 8
-  cameraTransform: {fileID: 1375097813}
-  cameraObject: {fileID: 0}
-  swayAmount: 0.1
-  swaySpeed: 3
+    m_Bits: 0
+  mouseSensitivity: 100
+  cameraPivot: {fileID: 0}
+  kittyCamera: {fileID: 0}
+  swayAmount: 0.05
+  swaySpeed: 4
 --- !u!54 &179712213
 Rigidbody:
   m_ObjectHideFlags: 0
