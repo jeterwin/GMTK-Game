@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Cat_Mom_low
+  m_Name: cat_baby
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -41,23 +41,23 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 43c62bd0ffe70e04dabbd18cf210d715, type: 3}
+        m_Texture: {fileID: 2800000, guid: 48a188d55a7cf5346a761744edecc781, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 6e5600a9e4f10d647ac852e21277d993, type: 3}
+        m_Texture: {fileID: 2800000, guid: 22ec120baefb51f449697e8cdcac0510, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
-        m_Texture: {fileID: 2800000, guid: 43c62bd0ffe70e04dabbd18cf210d715, type: 3}
+        m_Texture: {fileID: 2800000, guid: 48a188d55a7cf5346a761744edecc781, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailMask:
-        m_Texture: {fileID: 2800000, guid: 9496c66cdfe05cb47850dc5e42fdb33c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1c19d1f37ef247d4189d2be1dfdfe44d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
-        m_Texture: {fileID: 2800000, guid: 6e5600a9e4f10d647ac852e21277d993, type: 3}
+        m_Texture: {fileID: 2800000, guid: 22ec120baefb51f449697e8cdcac0510, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -65,7 +65,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 43c62bd0ffe70e04dabbd18cf210d715, type: 3}
+        m_Texture: {fileID: 2800000, guid: 48a188d55a7cf5346a761744edecc781, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
