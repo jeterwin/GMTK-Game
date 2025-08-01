@@ -2020,8 +2020,16 @@ PrefabInstance:
       value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 2388820475405620142, guid: 0fc1c4eb8616b404e8df7108f787e74c, type: 3}
+      propertyPath: moveSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2388820475405620142, guid: 0fc1c4eb8616b404e8df7108f787e74c, type: 3}
       propertyPath: swayAmount
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2388820475405620142, guid: 0fc1c4eb8616b404e8df7108f787e74c, type: 3}
+      propertyPath: acceleration
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2388820475405620142, guid: 0fc1c4eb8616b404e8df7108f787e74c, type: 3}
       propertyPath: mouseSensitivity
