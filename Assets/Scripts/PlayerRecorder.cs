@@ -66,10 +66,12 @@ public class PlayerRecorder : MonoBehaviour
         rewindMusic.Play();
         normalMusic.Stop();
 
+        var timeToRewind = timeManager.timeLimit - timeManager.remainingTime;
+
         // Rewind player visually
-        for (rewindIndex = frames.Count - 1; rewindIndex >= 0; rewindIndex-=4)
+        for (rewindIndex = frames.Count - 1; rewindIndex >= 0; rewindIndex-=6)
         {
-            timeManager.remainingTime += (timeManager.timeLimit - timeManager.remainingTime)*4/frames.Count;
+            timeManager.remainingTime += timeToRewind/(frames.Count/6);
             PlayerFrameData frame = frames[rewindIndex];
             transform.position = frame.position;
             transform.rotation = frame.rotation;
