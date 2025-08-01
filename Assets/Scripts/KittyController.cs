@@ -3,6 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class KittyController : MonoBehaviour
 {
+    public static KittyController instance;
+
     [Header("Movement Settings")]
     public float moveSpeed = 5f;
     public float acceleration = 10f;
@@ -24,6 +26,10 @@ public class KittyController : MonoBehaviour
     private Vector3 originalCamLocalPos;
     private float pitch = 0f;
 
+    private void Awake()
+    {
+        instance = this;
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody>();

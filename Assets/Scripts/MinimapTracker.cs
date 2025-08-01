@@ -26,7 +26,7 @@ public class MinimapTracker : MonoBehaviour
     {
         playerIconInstance = Instantiate(playerIconPrefab, minimapRect);
         playerIconInstance.name = "PlayerIcon";
-        playerIconInstance.anchorMin = playerIconInstance.anchorMax = playerIconInstance.pivot = new Vector2(0, 0);
+        playerIconInstance.anchorMin = playerIconInstance.anchorMax = playerIconInstance.pivot = new Vector2(.5f, .5f);
 
         kittens.AddRange(GameObject.FindGameObjectsWithTag("Kitten"));
         tasks.AddRange(GameObject.FindGameObjectsWithTag("Task"));
@@ -35,7 +35,7 @@ public class MinimapTracker : MonoBehaviour
         {
             var icon = Instantiate(kittenIconPrefab, minimapRect);
             icon.name = "KittenIcon_" + kitten.name;
-            icon.anchorMin = icon.anchorMax = icon.pivot = new Vector2(0, 0);
+            icon.anchorMin = icon.anchorMax = icon.pivot = new Vector2(.5f, .5f);
             kittenIcons[kitten] = icon;
 
             UpdateIconPosition(kitten.transform.position, icon);
@@ -45,7 +45,7 @@ public class MinimapTracker : MonoBehaviour
         {
             var glow = Instantiate(taskGlowPrefab, minimapRect);
             glow.name = "TaskGlow_" + task.name;
-            glow.anchorMin = glow.anchorMax = glow.pivot = new Vector2(0, 0);
+            glow.anchorMin = glow.anchorMax = glow.pivot = new Vector2(.5f, .5f);
             taskGlows[task] = glow;
 
             UpdateIconPosition(task.transform.position, glow);
@@ -101,6 +101,9 @@ public class MinimapTracker : MonoBehaviour
         float normalizedX = Mathf.InverseLerp(worldMax.x, worldMin.x, worldPos.x);
         float normalizedY = Mathf.InverseLerp(worldMax.y, worldMin.y, worldPos.y);
 
-        return new Vector2(normalizedX * minimapSize.x, normalizedY * minimapSize.y);
+        return new Vector2(
+            (normalizedX - 0.5f) * minimapSize.x,
+            (normalizedY - 0.5f) * minimapSize.y
+        );
     }
 }

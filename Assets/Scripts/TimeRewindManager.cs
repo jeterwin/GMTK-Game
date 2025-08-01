@@ -1,7 +1,4 @@
 using UnityEngine;
-
-using UnityEngine;
-
 public class TimeRewindManager : MonoBehaviour
 {
     public PlayerRecorder recorder;
