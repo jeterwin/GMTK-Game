@@ -203,7 +203,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5061122368850406064}
-  - {fileID: 1284781216624584772}
+  - {fileID: 6217911170124099098}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &4038215705575572373
@@ -269,6 +269,9 @@ MonoBehaviour:
   recordDuration: 5
   clonePrefab: {fileID: 0}
   playerMovement: {fileID: 0}
+  timeManager: {fileID: 0}
+  normalMusic: {fileID: 0}
+  rewindMusic: {fileID: 0}
 --- !u!114 &2388820475405620142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +304,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3809711172432112314}
     m_Modifications:
+    - target: {fileID: 4269248707014720705, guid: c3be765205d6608409fb3bf21141556d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269248707014720705, guid: c3be765205d6608409fb3bf21141556d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269248707014720705, guid: c3be765205d6608409fb3bf21141556d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8640924781815177253, guid: c3be765205d6608409fb3bf21141556d, type: 3}
       propertyPath: m_Name
       value: MomCatto
@@ -350,8 +365,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3be765205d6608409fb3bf21141556d, type: 3}
---- !u!4 &1284781216624584772 stripped
+--- !u!4 &6217911170124099098 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 8980577751103109791, guid: c3be765205d6608409fb3bf21141556d, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4269248707014720705, guid: c3be765205d6608409fb3bf21141556d, type: 3}
   m_PrefabInstance: {fileID: 7887243684428010203}
   m_PrefabAsset: {fileID: 0}
