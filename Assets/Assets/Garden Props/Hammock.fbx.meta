@@ -3,7 +3,12 @@ guid: af2c997ff259ec44ea7fd5d17610bb61
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Hammok
+    second: {fileID: 2100000, guid: 2b46b1af3c4339f4dab1c3c87666e029, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

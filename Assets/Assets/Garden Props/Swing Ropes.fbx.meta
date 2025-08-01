@@ -3,7 +3,12 @@ guid: a3283e40783241443ac06b15f6bc4025
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: swing
+    second: {fileID: 2100000, guid: 453510426e2951141a821ee23e0cd172, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
