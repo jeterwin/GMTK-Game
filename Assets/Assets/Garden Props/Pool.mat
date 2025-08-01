@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Swing
+  m_Name: Pool
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -43,23 +43,23 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 07bcff75efb7d6e4fa38995a68b68b6e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0f8c34be2c57a3041b5cd9ed68e840c5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 639db47bdf3978b4683377ab0cf96ec2, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9a33cb3ef95ca854d94d95cb5a6093d4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
-        m_Texture: {fileID: 2800000, guid: 07bcff75efb7d6e4fa38995a68b68b6e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0f8c34be2c57a3041b5cd9ed68e840c5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailMask:
-        m_Texture: {fileID: 2800000, guid: 19a9d972f2bf9fd4bb81c5be3b64c630, type: 3}
+        m_Texture: {fileID: 2800000, guid: db30c0729e515bb43a6ff9f52f03d02a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
-        m_Texture: {fileID: 2800000, guid: 639db47bdf3978b4683377ab0cf96ec2, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9a33cb3ef95ca854d94d95cb5a6093d4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -67,11 +67,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 07bcff75efb7d6e4fa38995a68b68b6e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0f8c34be2c57a3041b5cd9ed68e840c5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 19a9d972f2bf9fd4bb81c5be3b64c630, type: 3}
+        m_Texture: {fileID: 2800000, guid: db30c0729e515bb43a6ff9f52f03d02a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
