@@ -13,32 +13,42 @@ public class KittyClone : MonoBehaviour
         StartCoroutine(PlayReplay());
     }
 
-    private IEnumerator PlayReplay()
+    IEnumerator PlayReplay()
     {
-        while (currentFrame < playbackData.Count)
+        foreach (var frame in playbackData)
         {
-            var frame = playbackData[currentFrame];
             transform.position = frame.position;
             transform.rotation = frame.rotation;
+
+            // Play animation if needed
             PlayAnimation(frame.animationState);
 
-            if (frame.interactionFlags)
+            // Trigger interaction if this frame recorded a press
+            if (frame.interactionPressed)
             {
-                TriggerInteraction();
+                TriggerInteraction(); // Define this method to call nearby IInteractables
             }
 
-            currentFrame++;
-            yield return new WaitForEndOfFrame(); // or WaitForSeconds for slow motion
+            yield return new WaitForEndOfFrame();
         }
 
-        Destroy(gameObject); // Or let the clone idle
+        Destroy(gameObject);
     }
 
     void PlayAnimation(string animState) {
         // Your Animator handling
     }
 
-    void TriggerInteraction() {
-        // Call the same interaction system (e.g., press button)
+    void TriggerInteraction()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, 1f);
+        foreach (var hit in hits)
+        {
+            var interactable = hit.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                interactable.Interact(gameObject); // Pass the clone as the caller
+            }
+        }
     }
 }

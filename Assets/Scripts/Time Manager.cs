@@ -4,6 +4,8 @@ using TMPro; // Ensure you have TextMeshPro package installed
 
 public class TimeManager : MonoBehaviour
 {
+    public static TimeManager Instance;
+
     public float timeLimit;
     private float remainingTime;
     private float countdownTime = 3f;
@@ -14,6 +16,11 @@ public class TimeManager : MonoBehaviour
     public Animator timeAnimator; // Reference to the Animator component for animations
     public Animator countdownAnimator; // Animator for handling text animations
     private float flashInterval = 10f;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
