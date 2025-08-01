@@ -15,6 +15,10 @@ public class PlayerRecorder : MonoBehaviour
     private bool allowRecording = true;
     private int rewindIndex;
 
+    [SerializeField] TimeManager timeManager;
+    [SerializeField] AudioSource normalMusic;
+    [SerializeField] AudioSource rewindMusic;
+
     private Rigidbody rb;
 
     void Start()
@@ -58,16 +62,26 @@ public class PlayerRecorder : MonoBehaviour
         allowRecording = false;
         playerMovement.enabled = false;
         rb.isKinematic = true;
+        timeManager.decreaseTime = false;
+        rewindMusic.Play();
+        normalMusic.Stop();
+
+        var timeToRewind = timeManager.timeLimit - timeManager.remainingTime;
 
         // Rewind player visually
-        for (rewindIndex = frames.Count - 1; rewindIndex >= 0; rewindIndex--)
+        for (rewindIndex = frames.Count - 1; rewindIndex >= 0; rewindIndex-=6)
         {
+            timeManager.remainingTime += timeToRewind/(frames.Count/6);
             PlayerFrameData frame = frames[rewindIndex];
             transform.position = frame.position;
             transform.rotation = frame.rotation;
-            yield return new WaitForEndOfFrame();
+            yield return null;
         }
 
+        normalMusic.Play();
+        rewindMusic.Stop();
+        timeManager.remainingTime = timeManager.timeLimit;
+        timeManager.decreaseTime = true;
         // Spawn clone to replay original movements
         GameObject clone = Instantiate(clonePrefab, frames[0].position, frames[0].rotation);
         KittyClone cloneScript = clone.GetComponent<KittyClone>();

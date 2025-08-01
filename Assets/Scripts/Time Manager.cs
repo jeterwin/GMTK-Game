@@ -7,15 +7,17 @@ public class TimeManager : MonoBehaviour
     public static TimeManager Instance;
 
     public float timeLimit;
-    private float remainingTime;
-    private float countdownTime = 3f;
-    public TMP_Text timeText;
-    public TMP_Text countdownText; // Reference to the TextMeshProUGUI component for countdown display
-    public GameObject HUDCanvas;
-    public GameObject countdownCanvas;
-    public Animator timeAnimator; // Reference to the Animator component for animations
-    public Animator countdownAnimator; // Animator for handling text animations
-    private float flashInterval = 10f;
+    public float remainingTime;
+    [SerializeField] float countdownTime = 3f;
+    [SerializeField] TMP_Text timeText;
+    [SerializeField] TMP_Text countdownText; // Reference to the TextMeshProUGUI component for countdown display
+    [SerializeField] GameObject HUDCanvas;
+    [SerializeField] GameObject countdownCanvas;
+    [SerializeField] Animator timeAnimator; // Reference to the Animator component for animations
+    [SerializeField] Animator countdownAnimator; // Animator for handling text animations
+    [SerializeField] float flashInterval = 10f;
+    public bool decreaseTime;
+    [SerializeField] AudioSource music;
 
     private void Awake()
     {
@@ -25,6 +27,7 @@ public class TimeManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        decreaseTime = false;
         countdownText.text = countdownTime.ToString("F1") + "s"; // Display initial countdown time with 1 decimal place   
         timeText.text = timeLimit.ToString("F2") + "s"; // Display initial time limit with 2 decimal places
         StartCoroutine(StartCountdown());
@@ -33,24 +36,42 @@ public class TimeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (remainingTime > 0)
+        if (remainingTime > 0 )
         {
-            remainingTime -= Time.deltaTime;
+            if (decreaseTime)
+            {
+                remainingTime -= Time.deltaTime;
+            }
             timeText.text = remainingTime.ToString("F2") + "s"; // Display remaining time with 2 decimal places
-            if(remainingTime > 40) {
-                flashInterval = 10f; // Flash every 10 seconds for more than 30 seconds remaining
+                                                                // Adjust music speed (pitch) based on remaining time
+            if (remainingTime > 40)
+            {
+                music.pitch = 1f;   // Normal speed
+                flashInterval = 10f;
             }
             else if (remainingTime > 20)
             {
-                flashInterval = 5f; // Flash every 5 seconds for more than 10 seconds remaining
-            }else if (remainingTime > 10)
+                music.pitch = 1.2f; // Slightly faster
+                flashInterval = 5f;
+            }
+            else if (remainingTime > 10)
             {
-                flashInterval = 1f; // Flash every 2 seconds for more than 5 seconds remaining
+                music.pitch = 1.4f;
+                flashInterval = 1f;
             }
             else
             {
-                flashInterval = .5f; // Flash every second for less than or equal to 5 seconds remaining
+                if (remainingTime > 5)
+                {
+                    music.pitch = 1.6f; // Fast and tense
+                }
+                else
+                {
+                    music.pitch = 2f; // Very fast and tense
+                }
+                flashInterval = 0.5f;
             }
+
 
             if (Mathf.Abs((remainingTime % flashInterval)) < 0.05f)
             {
@@ -77,6 +98,7 @@ public class TimeManager : MonoBehaviour
         countdownCanvas.SetActive(false); // Hide the countdown canvas
         HUDCanvas.SetActive(true); // Show the HUD canvas
         remainingTime = timeLimit;
+        decreaseTime = true;
     }
 
     Color GetTimeColor(float remainingTime, float totalTime)
