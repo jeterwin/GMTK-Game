@@ -7,7 +7,7 @@ public class TimeManager : MonoBehaviour
     public static TimeManager Instance;
 
     public float timeLimit;
-    private float remainingTime;
+    public float remainingTime;
     private float countdownTime = 3f;
     public TMP_Text timeText;
     public TMP_Text countdownText; // Reference to the TextMeshProUGUI component for countdown display
@@ -16,6 +16,7 @@ public class TimeManager : MonoBehaviour
     public Animator timeAnimator; // Reference to the Animator component for animations
     public Animator countdownAnimator; // Animator for handling text animations
     private float flashInterval = 10f;
+    public bool decreaseTime;
 
     private void Awake()
     {
@@ -25,6 +26,7 @@ public class TimeManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        decreaseTime = false;
         countdownText.text = countdownTime.ToString("F1") + "s"; // Display initial countdown time with 1 decimal place   
         timeText.text = timeLimit.ToString("F2") + "s"; // Display initial time limit with 2 decimal places
         StartCoroutine(StartCountdown());
@@ -33,9 +35,12 @@ public class TimeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (remainingTime > 0)
+        if (remainingTime > 0 )
         {
-            remainingTime -= Time.deltaTime;
+            if (decreaseTime)
+            {
+                remainingTime -= Time.deltaTime;
+            }
             timeText.text = remainingTime.ToString("F2") + "s"; // Display remaining time with 2 decimal places
             if(remainingTime > 40) {
                 flashInterval = 10f; // Flash every 10 seconds for more than 30 seconds remaining
@@ -77,6 +82,7 @@ public class TimeManager : MonoBehaviour
         countdownCanvas.SetActive(false); // Hide the countdown canvas
         HUDCanvas.SetActive(true); // Show the HUD canvas
         remainingTime = timeLimit;
+        decreaseTime = true;
     }
 
     Color GetTimeColor(float remainingTime, float totalTime)
