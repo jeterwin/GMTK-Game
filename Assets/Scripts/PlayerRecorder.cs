@@ -8,12 +8,13 @@ public class PlayerRecorder : MonoBehaviour
     public GameObject clonePrefab;
 
     [SerializeField] private KittyController playerMovement;
-    private List<PlayerFrameData> frames = new List<PlayerFrameData>();
-    private float timer = 0f;
 
+    private List<List<PlayerFrameData>> rewindSegments = new List<List<PlayerFrameData>>();
+    private List<PlayerFrameData> currentSegment = new List<PlayerFrameData>();
+
+    private float timer = 0f;
     private bool isRewinding = false;
     private bool allowRecording = true;
-    private int rewindIndex;
 
     private Rigidbody rb;
 
@@ -29,7 +30,7 @@ public class PlayerRecorder : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            frames.Add(new PlayerFrameData
+            currentSegment.Add(new PlayerFrameData
             {
                 position = transform.position,
                 rotation = transform.rotation,
@@ -39,14 +40,14 @@ public class PlayerRecorder : MonoBehaviour
 
             if (timer > recordDuration)
             {
-                frames.RemoveAt(0);
+                currentSegment.RemoveAt(0);
             }
         }
     }
 
     public void TriggerRewind()
     {
-        if (!isRewinding && frames.Count > 0)
+        if (!isRewinding && currentSegment.Count > 0)
         {
             StartCoroutine(HandleRewind());
         }
@@ -59,22 +60,32 @@ public class PlayerRecorder : MonoBehaviour
         playerMovement.enabled = false;
         rb.isKinematic = true;
 
-        // Rewind player visually
-        for (rewindIndex = frames.Count - 1; rewindIndex >= 0; rewindIndex--)
+        // Rewind only the latest segment for the player
+        for (int i = currentSegment.Count - 1; i >= 0; i--)
         {
-            PlayerFrameData frame = frames[rewindIndex];
+            PlayerFrameData frame = currentSegment[i];
             transform.position = frame.position;
             transform.rotation = frame.rotation;
             yield return new WaitForEndOfFrame();
         }
 
-        // Spawn clone to replay original movements
-        GameObject clone = Instantiate(clonePrefab, frames[0].position, frames[0].rotation);
-        KittyClone cloneScript = clone.GetComponent<KittyClone>();
-        cloneScript.Init(new List<PlayerFrameData>(frames));
+        // Save this segment
+        List<PlayerFrameData> copiedSegment = new List<PlayerFrameData>(currentSegment);
+        rewindSegments.Add(copiedSegment);
 
-        // Resume control
-        frames.Clear();
+        // Spawn one clone per stored segment
+        foreach (var segment in rewindSegments)
+        {
+            if (segment.Count > 0)
+            {
+                GameObject clone = Instantiate(clonePrefab, segment[0].position, segment[0].rotation);
+                KittyClone cloneScript = clone.GetComponent<KittyClone>();
+                cloneScript.Init(new List<PlayerFrameData>(segment)); // make a defensive copy
+            }
+        }
+
+        // Reset player recording state
+        currentSegment.Clear();
         timer = 0f;
         rb.isKinematic = false;
         playerMovement.enabled = true;
@@ -82,14 +93,9 @@ public class PlayerRecorder : MonoBehaviour
         isRewinding = false;
     }
 
-    public List<PlayerFrameData> GetReplayData()
-    {
-        return new List<PlayerFrameData>(frames);
-    }
-
     string GetCurrentAnimationState()
     {
-        return ""; // Optional
+        return ""; // Hook into animation system as needed
     }
 }
 
