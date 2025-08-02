@@ -4,12 +4,9 @@ public class ItemPickup : MonoBehaviour
 {
     public InventoryItem item;
 
-    void OnTriggerEnter(Collider other)
+    public void PickupItem()
     {
-        if (other.CompareTag("Player"))
-        {
-            Inventory.Instance.AddItem(item);
-            Destroy(gameObject);
-        }
+        Inventory.Instance.AddItem(item);
+        Destroy(gameObject);
     }
 }
