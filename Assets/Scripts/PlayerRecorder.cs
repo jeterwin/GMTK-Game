@@ -18,6 +18,7 @@ public class PlayerRecorder : MonoBehaviour
     [SerializeField] TimeManager timeManager;
     [SerializeField] AudioSource normalMusic;
     [SerializeField] AudioSource rewindMusic;
+    [SerializeField] MinimapTracker minimapTracker;
 
     private Rigidbody rb;
 
@@ -86,6 +87,7 @@ public class PlayerRecorder : MonoBehaviour
         GameObject clone = Instantiate(clonePrefab, frames[0].position, frames[0].rotation);
         KittyClone cloneScript = clone.GetComponent<KittyClone>();
         cloneScript.Init(new List<PlayerFrameData>(frames));
+        minimapTracker.AddCloneIcon(clone);
 
         // Resume control
         frames.Clear();

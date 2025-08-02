@@ -9,6 +9,7 @@ public class MinimapTracker : MonoBehaviour
     public RectTransform playerIcon;
     public RectTransform kittenIconPrefab;
     public RectTransform taskGlowPrefab;
+    public RectTransform cloneIconPrefab;
 
     public Vector2 worldMin;
     public Vector2 worldMax;
@@ -18,12 +19,16 @@ public class MinimapTracker : MonoBehaviour
 
     private Dictionary<GameObject, RectTransform> kittenIcons = new Dictionary<GameObject, RectTransform>();
     private Dictionary<GameObject, RectTransform> taskGlows = new Dictionary<GameObject, RectTransform>();
+    private Dictionary<GameObject, RectTransform> cloneIcons = new Dictionary<GameObject, RectTransform>();
 
     public RectTransform playerIconPrefab;
     private RectTransform playerIconInstance;
 
+    private List<GameObject> clonesToRemove; 
+
     void Start()
     {
+        clonesToRemove = new List<GameObject>();
         playerIconInstance = Instantiate(playerIconPrefab, minimapRect);
         playerIconInstance.name = "PlayerIcon";
         playerIconInstance.anchorMin = playerIconInstance.anchorMax = playerIconInstance.pivot = new Vector2(.5f, .5f);
@@ -86,6 +91,32 @@ public class MinimapTracker : MonoBehaviour
             if (hasTag)
                 UpdateIconPosition(go.transform.position, glow);
         }
+
+        clonesToRemove.Clear();
+
+        foreach (var kvp in cloneIcons)
+        {
+            var go = kvp.Key;
+            var icon = kvp.Value;
+
+            if (go != null)
+            {
+                UpdateIconPosition(go.transform.position, icon);
+            }
+            else
+            {
+                clonesToRemove.Add(go);
+            }
+        }
+
+        foreach(var clone in clonesToRemove)
+        {
+            if (cloneIcons.ContainsKey(clone))
+            {
+                Destroy(cloneIcons[clone].gameObject);
+                cloneIcons.Remove(clone);
+            }
+        }
     }
 
     private void UpdateIconPosition(Vector3 worldPos3D, RectTransform icon)
@@ -105,5 +136,10 @@ public class MinimapTracker : MonoBehaviour
             (normalizedX - 0.5f) * minimapSize.x,
             (normalizedY - 0.5f) * minimapSize.y
         );
+    }
+
+    public void AddCloneIcon(GameObject clone) {
+        var cloneIconInstance = Instantiate(cloneIconPrefab, minimapRect);
+        cloneIcons.Add(clone, cloneIconInstance);
     }
 }
