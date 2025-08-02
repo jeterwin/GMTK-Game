@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TMPro; // Ensure you have TextMeshPro package installed
 
-public class TimeManager : MonoBehaviour
+public class    TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
 
@@ -18,6 +18,7 @@ public class TimeManager : MonoBehaviour
     [SerializeField] float flashInterval = 10f;
     public bool decreaseTime;
     [SerializeField] AudioSource music;
+    public float decreaseTimeMultiplier = 1f;
 
     private void Awake()
     {
@@ -36,6 +37,10 @@ public class TimeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (decreaseTime)
+        {
+            remainingTime -= Time.deltaTime * decreaseTimeMultiplier;
+        }
         if (remainingTime > 0 )
         {
             if (decreaseTime)

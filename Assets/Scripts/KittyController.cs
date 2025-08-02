@@ -59,6 +59,7 @@ public class KittyController : MonoBehaviour
     private Vector2 smoothMouseDelta;
     private Vector2 currentMouseVelocity;
     public float smoothTime = 0.05f;  // tweak this value to your liking
+    public float speedMultiplier = 1f;
 
     private void Awake()
     {
@@ -118,11 +119,11 @@ public class KittyController : MonoBehaviour
     void Move()
     {
         Vector3 moveDir = transform.forward * input.z + transform.right * input.x;
-        float currentSpeed = isRunning ? moveSpeed * runMultiplier : moveSpeed;
+        float currentSpeed = (isRunning ? moveSpeed * runMultiplier : moveSpeed) * speedMultiplier;  // multiply speed here
+
         Vector3 targetVelocity = moveDir * currentSpeed;
 
-
-        Vector3 currentVelocity = rb.linearVelocity;
+        Vector3 currentVelocity = rb.linearVelocity;  // note: use rb.velocity, not linearVelocity unless you're on Unity 2023.1+
 
         Vector3 velocityChange = new Vector3(
             targetVelocity.x - currentVelocity.x,
@@ -132,20 +133,21 @@ public class KittyController : MonoBehaviour
 
         float control = IsGrounded() ? 1f : airControlFactor;
 
-        rb.AddForce(velocityChange * acceleration * control, ForceMode.Acceleration);
+        rb.AddForce(velocityChange * acceleration * speedMultiplier * control, ForceMode.Acceleration);  // multiply acceleration here
 
         Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-        if (horizontalVelocity.magnitude > maxHorizontalSpeed)
+        if (horizontalVelocity.magnitude > maxHorizontalSpeed * speedMultiplier)  // max speed scaled
         {
-            Vector3 limitedVelocity = horizontalVelocity.normalized * maxHorizontalSpeed;
+            Vector3 limitedVelocity = horizontalVelocity.normalized * maxHorizontalSpeed * speedMultiplier;
             rb.linearVelocity = new Vector3(limitedVelocity.x, rb.linearVelocity.y, limitedVelocity.z);
         }
 
         if (!IsGrounded())
         {
-            rb.linearVelocity *= (1f - airDrag * Time.fixedDeltaTime);
+            rb.linearVelocity *= (1f - airDrag * Time.fixedDeltaTime);  // air drag stays same
         }
     }
+
 
     void HandleMouseLook()
     {
