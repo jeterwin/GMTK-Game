@@ -140,6 +140,8 @@ public class MinimapTracker : MonoBehaviour
 
     public void AddCloneIcon(GameObject clone) {
         var cloneIconInstance = Instantiate(cloneIconPrefab, minimapRect);
+        cloneIconInstance.name = "CloneIcon_" + clone.name;
+        cloneIconInstance.anchorMin = cloneIconInstance.anchorMax = cloneIconInstance.pivot = new Vector2(.5f, .5f);
         cloneIcons.Add(clone, cloneIconInstance);
     }
 }
