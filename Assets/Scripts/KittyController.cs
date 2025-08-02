@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 [RequireComponent(typeof(Rigidbody))]
 public class KittyController : MonoBehaviour
@@ -101,6 +102,7 @@ public class KittyController : MonoBehaviour
 
     bool IsGrounded()
     {
+        Debug.DrawRay(transform.position, Vector3.down * groundCheckDistance, Color.red);
         return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundLayer);
     }
 }
