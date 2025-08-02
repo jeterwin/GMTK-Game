@@ -13,7 +13,11 @@ public class FirstMenuUI : MonoBehaviour
     {
         newGameButton.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene(1);
+            LevelMenuUI.Instance.Show();
+        });
+        optionsButton.onClick.AddListener(() =>
+        {
+            OptionsMenuUI.Instance.Show();
         });
         quitButton.onClick.AddListener(() =>
         {
