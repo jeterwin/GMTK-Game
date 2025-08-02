@@ -42,7 +42,8 @@ public class PlayerRecorder : MonoBehaviour
                 position = transform.position,
                 rotation = transform.rotation,
                 animationState = GetCurrentAnimationState(),
-                interactionPressed = Input.GetKeyDown(KeyCode.E)
+                interactionPressed = Input.GetKeyDown(KeyCode.E),
+                inventorySnapshot = new List<string>(Inventory.Instance.items.ConvertAll(i => i.itemName))
             });
 
             if (timer > recordDuration)
@@ -126,4 +127,6 @@ public struct PlayerFrameData
     public Quaternion rotation;
     public string animationState;
     public bool interactionPressed;
+
+    public List<string> inventorySnapshot; // Store item names only
 }

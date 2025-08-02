@@ -63,7 +63,15 @@ public class DialogueManager : MonoBehaviour
         nameText.text = currentLine.speakerName;
         portraitImage.sprite = currentLine.portrait;
 
-        typingCoroutine = StartCoroutine(TypeText(currentLine.text));
+        if (!string.IsNullOrEmpty(currentLine.requiredItemName) &&
+            !Inventory.Instance.HasItem(currentLine.requiredItemName))
+        {
+            typingCoroutine = StartCoroutine(TypeText(currentLine.missingItemText));
+        }
+        else
+        {
+            typingCoroutine = StartCoroutine(TypeText(currentLine.text));
+        }
     }
 
     IEnumerator TypeText(string text)
