@@ -36,4 +36,10 @@ public class KittyButton : MonoBehaviour, IInteractable
             currentKittyInRange = null;
         }
     }
+
+    public void InteractedWithKitten()
+    {
+        LevelManager.Instance.KittenFound();
+        Object.Destroy(gameObject); // Destroy the button after interaction
+    }
 }

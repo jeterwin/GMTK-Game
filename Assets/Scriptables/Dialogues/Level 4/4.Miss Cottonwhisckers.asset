@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 489c7d71481f0bb4fa8cf2a50103c1ca, type: 3}
-  m_Name: Jeremiah
+  m_Name: 4.Miss Cottonwhisckers
   m_EditorClassIdentifier: 
   lines:
-  - speakerName: Jeremeowah
+  - speakerName: Miss Cottonwhiskers
     requiredItemName: 
     missingItemText: 
-    text: Help! I'm stuck in the fence!
-    portrait: {fileID: 21300000, guid: 7618a38e388d9e54a9a350ec1c7b437f, type: 3}
+    text: I just wanted to take a bath...
+    portrait: {fileID: 21300000, guid: 1a6ed825493a2a64a9cfc6225955f53b, type: 3}
     meowerType: 1

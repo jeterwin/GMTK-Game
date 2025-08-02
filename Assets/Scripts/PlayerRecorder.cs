@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerRecorder : MonoBehaviour
@@ -28,6 +29,11 @@ public class PlayerRecorder : MonoBehaviour
     public GreyscaleFade greyscaleFade;
     
     private Rigidbody rb;
+
+    private int clonesUsed = 0;
+
+    [SerializeField] TMP_Text clonesText;
+
     IEnumerator PreloadAudio()
     {
         rewindMusic.volume = 0f;
@@ -39,6 +45,8 @@ public class PlayerRecorder : MonoBehaviour
 
     void Start()
     {
+        clonesUsed = 0;
+        clonesText.text = "0/9";
         StartCoroutine(PreloadAudio());
         recordDuration = TimeManager.Instance.timeLimit;
         rb = GetComponent<Rigidbody>();
@@ -70,7 +78,7 @@ public class PlayerRecorder : MonoBehaviour
 
     public void TriggerRewind()
     {
-        if (!isRewinding && currentSegment.Count > 0)
+        if (!isRewinding && currentSegment.Count > 0 && clonesUsed < 9)
         {
             StartCoroutine(HandleRewind());
         }
@@ -122,6 +130,8 @@ public class PlayerRecorder : MonoBehaviour
         timeManager.decreaseTime = false;
         playerMovement.speedMultiplier = 0f;
         timeManager.decreaseTimeMultiplier = 0f;
+
+        playerMovement.runSound.pitch = 0f;
 
         float timeToRestore = timeManager.timeLimit - timeManager.remainingTime;
         // Play rewind frames with manual camera update
@@ -183,14 +193,7 @@ public class PlayerRecorder : MonoBehaviour
         currentSegment.Clear();
         timer = 0f;
         allowRecording = true;
-        isRewinding = false;
 
-        yield return StartCoroutine(SpawnClonesCoroutine());
-        isRewinding = false;
-    }
-
-    private IEnumerator SpawnClonesCoroutine()
-    {
         foreach (var segment in rewindSegments)
         {
             if (segment.Count > 0)
@@ -203,8 +206,14 @@ public class PlayerRecorder : MonoBehaviour
                 yield return null; // wait a frame to spread the load
             }
         }
+        clonesUsed += 1;
+        clonesText.text = $"{clonesUsed}/9";
+        if(clonesUsed == 9)
+        {
+            clonesText.color = new Color(0.8f, 0.2f, 0.2f);
+        }
+        isRewinding = false;
     }
-
 
     public List<PlayerFrameData> GetReplayData()
     {

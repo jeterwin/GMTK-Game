@@ -61,6 +61,8 @@ public class KittyController : MonoBehaviour
     public float smoothTime = 0.05f;  // tweak this value to your liking
     public float speedMultiplier = 1f;
 
+    public AudioSource runSound;
+
     private void Awake()
     {
         instance = this;
@@ -68,6 +70,8 @@ public class KittyController : MonoBehaviour
 
     void Start()
     {
+        runSound.pitch = 0;
+        runSound.Play();
         swaySpeed = normalSwaySpeed;
         box = GetComponent<BoxCollider>();
         rb = GetComponent<Rigidbody>();
@@ -78,12 +82,6 @@ public class KittyController : MonoBehaviour
 
     void Update()
     {
-        // Position cameraRoot at character position + offset
-        cameraRoot.position = transform.position
-            + transform.forward * cameraOffset.z
-            + transform.right * cameraOffset.x
-            + transform.up * cameraOffset.y;
-
         HandleMouseLook();
         HandleInput();
         UpdateTiltAndBounce();
@@ -94,6 +92,16 @@ public class KittyController : MonoBehaviour
     {
         Move();
     }
+
+    void LateUpdate()
+    {
+        UpdateCameraPosition();
+        cameraRoot.position = transform.position
+            + transform.forward * cameraOffset.z
+            + transform.right * cameraOffset.x
+            + transform.up * cameraOffset.y;
+    }
+
 
     void HandleInput()
     {
@@ -108,6 +116,18 @@ public class KittyController : MonoBehaviour
         else
         {
             swaySpeed = normalSwaySpeed;
+        }
+
+        if(!IsGrounded() || input == Vector3.zero)
+        {
+            runSound.pitch = 0;
+        } else if (isRunning)
+        {
+            runSound.pitch = 1f;
+        }
+        else
+        {
+            runSound.pitch = .7f;
         }
 
         if (Input.GetButtonDown("Jump") && IsGrounded())
@@ -250,6 +270,10 @@ public class KittyController : MonoBehaviour
         float sway = Mathf.Sin(Time.time * swaySpeed) * swayAmount * input.magnitude;
         float bob = Mathf.Abs(Mathf.Cos(Time.time * swaySpeed * 2)) * swayAmount * 0.3f * input.magnitude;
         Vector3 swayOffset = new Vector3(sway, bob, 0f);
+        if (!IsGrounded())
+        {
+            swayOffset = new Vector3(0, 0, 0);
+        }
 
         // Combine sway and bounce offsets for final camera local position
         Vector3 finalOffset = originalCamLocalPos + swayOffset + new Vector3(0f, bounceOffset, 0f);

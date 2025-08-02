@@ -10,11 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 489c7d71481f0bb4fa8cf2a50103c1ca, type: 3}
-  m_Name: Mom Jeremiah
+  m_Name: 4.Miss Cottonwhiskers Mum
   m_EditorClassIdentifier: 
   lines:
   - speakerName: Mum
-    portrait: {fileID: 21300000, guid: 1468cb9f5572d644abc89c81c6d60d5f, type: 3}
-    text: 'I''m here, honey.
+    requiredItemName: 
+    missingItemText: 
+    text: 'Why do you make me do this...
 
-      (E - Unfence Jeremiah)'
+      (E - lifeguard in action)'
+    portrait: {fileID: 21300000, guid: 1468cb9f5572d644abc89c81c6d60d5f, type: 3}
+    meowerType: 0

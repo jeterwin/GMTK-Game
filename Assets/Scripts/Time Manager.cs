@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TMPro; // Ensure you have TextMeshPro package installed
 
-public class    TimeManager : MonoBehaviour
+public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
 
@@ -28,6 +28,7 @@ public class    TimeManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        timeLimit = LevelManager.Instance.timeLimit;
         decreaseTime = false;
         countdownText.text = countdownTime.ToString("F1") + "s"; // Display initial countdown time with 1 decimal place   
         timeText.text = timeLimit.ToString("F2") + "s"; // Display initial time limit with 2 decimal places
