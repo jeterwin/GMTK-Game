@@ -8,7 +8,10 @@ public class PlayerRecorder : MonoBehaviour
     public GameObject clonePrefab;
 
     [SerializeField] private KittyController playerMovement;
-    private List<PlayerFrameData> frames = new List<PlayerFrameData>();
+
+    private List<List<PlayerFrameData>> rewindSegments = new List<List<PlayerFrameData>>();
+    private List<PlayerFrameData> currentSegment = new List<PlayerFrameData>();
+
     private float timer = 0f;
 
     private bool isRewinding = false;
@@ -18,6 +21,7 @@ public class PlayerRecorder : MonoBehaviour
     [SerializeField] TimeManager timeManager;
     [SerializeField] AudioSource normalMusic;
     [SerializeField] AudioSource rewindMusic;
+    [SerializeField] MinimapTracker minimapTracker;
 
     private Rigidbody rb;
 
@@ -33,24 +37,26 @@ public class PlayerRecorder : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            frames.Add(new PlayerFrameData
+            currentSegment.Add(new PlayerFrameData
             {
                 position = transform.position,
                 rotation = transform.rotation,
                 animationState = GetCurrentAnimationState(),
-                interactionPressed = Input.GetKeyDown(KeyCode.E)
+                interactionPressed = Input.GetKeyDown(KeyCode.E),
+                cameraPosition = playerMovement.cameraRoot.transform.position,
+                cameraRotation = playerMovement.cameraRoot.transform.rotation
             });
 
             if (timer > recordDuration)
             {
-                frames.RemoveAt(0);
+                currentSegment.RemoveAt(0);
             }
         }
     }
 
     public void TriggerRewind()
     {
-        if (!isRewinding && frames.Count > 0)
+        if (!isRewinding && currentSegment.Count > 0)
         {
             StartCoroutine(HandleRewind());
         }
@@ -68,27 +74,41 @@ public class PlayerRecorder : MonoBehaviour
 
         var timeToRewind = timeManager.timeLimit - timeManager.remainingTime;
 
-        // Rewind player visually
-        for (rewindIndex = frames.Count - 1; rewindIndex >= 0; rewindIndex-=6)
+        for (int i = currentSegment.Count - 1; i >= 0; i -= 4)
         {
-            timeManager.remainingTime += timeToRewind/(frames.Count/6);
-            PlayerFrameData frame = frames[rewindIndex];
+            timeManager.remainingTime += timeToRewind * 4 / currentSegment.Count;
+            PlayerFrameData frame = currentSegment[i];
+            playerMovement.cameraRoot.transform.position = frame.position;
             transform.position = frame.position;
             transform.rotation = frame.rotation;
-            yield return null;
+            playerMovement.cameraRoot.transform.rotation = frame.cameraRotation;
+            playerMovement.cameraRoot.transform.position = frame.cameraPosition;
+            yield return new WaitForEndOfFrame();
         }
+
+        // Save this segment
+        List<PlayerFrameData> copiedSegment = new List<PlayerFrameData>(currentSegment);
+        rewindSegments.Add(copiedSegment);
 
         normalMusic.Play();
         rewindMusic.Stop();
         timeManager.remainingTime = timeManager.timeLimit;
         timeManager.decreaseTime = true;
-        // Spawn clone to replay original movements
-        GameObject clone = Instantiate(clonePrefab, frames[0].position, frames[0].rotation);
-        KittyClone cloneScript = clone.GetComponent<KittyClone>();
-        cloneScript.Init(new List<PlayerFrameData>(frames));
+
+        foreach (var segment in rewindSegments)
+        {
+            if (segment.Count > 0)
+            {
+                GameObject clone = Instantiate(clonePrefab, segment[0].position, segment[0].rotation);
+                KittyClone cloneScript = clone.GetComponent<KittyClone>();
+                cloneScript.Init(new List<PlayerFrameData>(segment)); // make a defensive copy
+                // Spawn clone to replay original movements
+                minimapTracker.AddCloneIcon(clone);
+            }
+        };
 
         // Resume control
-        frames.Clear();
+        currentSegment.Clear();
         timer = 0f;
         rb.isKinematic = false;
         playerMovement.enabled = true;
@@ -98,7 +118,7 @@ public class PlayerRecorder : MonoBehaviour
 
     public List<PlayerFrameData> GetReplayData()
     {
-        return new List<PlayerFrameData>(frames);
+        return new List<PlayerFrameData>(currentSegment);
     }
 
     string GetCurrentAnimationState()
@@ -114,4 +134,6 @@ public struct PlayerFrameData
     public Quaternion rotation;
     public string animationState;
     public bool interactionPressed;
+    public Vector3 cameraPosition;
+    public Quaternion cameraRotation;
 }
