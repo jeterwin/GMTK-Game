@@ -73,18 +73,27 @@ public class DialogueManager : MonoBehaviour
         }
 
         currentLine = lineQueue.Dequeue();
-        if (currentLine.meowerType == MeowerType.Mom)
+        nameText.text = currentLine.speakerName;
+        portraitImage.sprite = currentLine.portrait;
+
+        if (!string.IsNullOrEmpty(currentLine.requiredItemName) &&
+            !Inventory.Instance.HasItem(currentLine.requiredItemName))
         {
             momMeow.Play();
+            typingCoroutine = StartCoroutine(TypeText(currentLine.missingItemText));
         }
         else
         {
-            kittenMeow.Play();
+            if (currentLine.meowerType == MeowerType.Mom)
+            {
+                momMeow.Play();
+            }
+            else
+            {
+                kittenMeow.Play();
+            }
+            typingCoroutine = StartCoroutine(TypeText(currentLine.text));
         }
-            nameText.text = currentLine.speakerName;
-        portraitImage.sprite = currentLine.portrait;
-
-        typingCoroutine = StartCoroutine(TypeText(currentLine.text));
     }
 
     IEnumerator TypeText(string text)

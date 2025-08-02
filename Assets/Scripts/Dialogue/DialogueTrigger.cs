@@ -7,20 +7,12 @@ public class DialogueTrigger : MonoBehaviour
 
     private bool playerInRange = false;
     private bool hasTriggered = false;
-    public string neededToolTag = null;
 
     void Update()
     {
         if (playerInRange && !hasTriggered && !DialogueManager.Instance.IsDialogueActive)
         {
-            if (neededToolTag != null && toolDialogue != null)
-            {
-                DialogueManager.Instance.StartDialogue(toolDialogue);
-            }
-            else
-            {
-                DialogueManager.Instance.StartDialogue(dialogue);
-            }
+            DialogueManager.Instance.StartDialogue(dialogue);
             hasTriggered = true; // prevent restart
         }
     }

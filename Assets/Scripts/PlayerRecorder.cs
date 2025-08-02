@@ -43,8 +43,7 @@ public class PlayerRecorder : MonoBehaviour
                 rotation = transform.rotation,
                 animationState = GetCurrentAnimationState(),
                 interactionPressed = Input.GetKeyDown(KeyCode.E),
-                cameraPosition = playerMovement.cameraRoot.transform.position,
-                cameraRotation = playerMovement.cameraRoot.transform.rotation
+                inventorySnapshot = new List<string>(Inventory.Instance.items.ConvertAll(i => i.itemName))
             });
 
             if (timer > recordDuration)
@@ -72,17 +71,11 @@ public class PlayerRecorder : MonoBehaviour
         rewindMusic.Play();
         normalMusic.Stop();
 
-        var timeToRewind = timeManager.timeLimit - timeManager.remainingTime;
-
-        for (int i = currentSegment.Count - 1; i >= 0; i -= 4)
+        for (int i = currentSegment.Count - 1; i >= 0; i--)
         {
-            timeManager.remainingTime += timeToRewind * 4 / currentSegment.Count;
             PlayerFrameData frame = currentSegment[i];
-            playerMovement.cameraRoot.transform.position = frame.position;
             transform.position = frame.position;
             transform.rotation = frame.rotation;
-            playerMovement.cameraRoot.transform.rotation = frame.cameraRotation;
-            playerMovement.cameraRoot.transform.position = frame.cameraPosition;
             yield return new WaitForEndOfFrame();
         }
 
@@ -134,6 +127,6 @@ public struct PlayerFrameData
     public Quaternion rotation;
     public string animationState;
     public bool interactionPressed;
-    public Vector3 cameraPosition;
-    public Quaternion cameraRotation;
+
+    public List<string> inventorySnapshot; // Store item names only
 }
