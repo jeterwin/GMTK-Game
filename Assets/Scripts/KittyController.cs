@@ -260,10 +260,10 @@ public class KittyController : MonoBehaviour
     {
         if (!box) return false;
 
-        Vector3 boxCenterWorld = transform.position + box.center - new Vector3(0, box.size.y / 2f + 0.05f, 0);
-        Vector3 halfExtents = new Vector3(box.size.x * 0.5f * 0.95f, 0.05f, box.size.z * 0.5f * 0.95f);
+        Vector3 halfExtents = box.size * 0.5f;
 
-        return Physics.CheckBox(boxCenterWorld, halfExtents, transform.rotation, groundLayer, QueryTriggerInteraction.Ignore);
+        return Physics.BoxCast(transform.position, halfExtents, Vector3.down,
+            out RaycastHit hitInfo, transform.rotation, groundCheckDistance, groundLayer);
     }
 
 }
