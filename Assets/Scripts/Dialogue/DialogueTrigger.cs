@@ -3,15 +3,24 @@ using UnityEngine;
 public class DialogueTrigger : MonoBehaviour
 {
     public DialogueData dialogue;
+    public DialogueData toolDialogue;
 
     private bool playerInRange = false;
     private bool hasTriggered = false;
+    public string neededToolTag = null;
 
     void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.E) && !hasTriggered && !DialogueManager.Instance.IsDialogueActive)
+        if (playerInRange && !hasTriggered && !DialogueManager.Instance.IsDialogueActive)
         {
-            DialogueManager.Instance.StartDialogue(dialogue);
+            if (neededToolTag != null && toolDialogue != null)
+            {
+                DialogueManager.Instance.StartDialogue(toolDialogue);
+            }
+            else
+            {
+                DialogueManager.Instance.StartDialogue(dialogue);
+            }
             hasTriggered = true; // prevent restart
         }
     }
@@ -25,6 +34,7 @@ public class DialogueTrigger : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
+            hasTriggered = false;
             playerInRange = false;
     }
 }
