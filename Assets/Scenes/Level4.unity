@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: d6f74041fd8568a4ab2ca3c279147dff, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: eba7963064dda3948b5fd6f002f3fcdd, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 4f6d00c2ec01607438f2ec026758a53e, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -10758,9 +10758,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8b2f0deffef6549b43c08d85179e3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grayscaleFeature: {fileID: -1320814716062184901, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
+  grayscaleFeature: {fileID: 0}
   targetFade: 0
   fadeSpeed: 1
+  currentFade: 0
 --- !u!1 &1394896620
 GameObject:
   m_ObjectHideFlags: 0
