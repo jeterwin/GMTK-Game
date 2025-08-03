@@ -11,7 +11,7 @@ public class LevelManager : MonoBehaviour
     private int kittensTotal;
     public int timeLimit;
     private int kittensFound;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Awake()
     {
         Instance = this;
@@ -28,6 +28,17 @@ public class LevelManager : MonoBehaviour
             winScreen.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+
+            // 🔓 Unlock the next level
+            int nextLevelIndex = level + 1;
+            if (nextLevelIndex < levelsDatabase.levels.Count)
+            {
+                SaveSystem.UnlockLevel(nextLevelIndex);
+            }
+
+            // 💾 Save progress (including "GameStarted")
+            SaveSystem.SetGameStarted();
+            SaveSystem.SaveProgress();
         }
     }
 }

@@ -26,13 +26,21 @@ public class LevelMenuUI : MonoBehaviour
     {
         for (int i = 0; i < levelButtons.Length; i++)
         {
-            if (i >= levelsDatabase.levels.Count) continue;
+            bool unlocked = SaveSystem.IsLevelUnlocked(i);
+            var btn = levelButtons[i];
+            var text = btn.GetComponentInChildren<TextMeshProUGUI>();
 
-            var levelData = levelsDatabase.levels[i];
-            var textComponent = levelButtons[i].GetComponentInChildren<TextMeshProUGUI>();
-            textComponent.text = $"{levelData.name} - 0 / {levelData.kittens}";
+            if (i < levelsDatabase.levels.Count)
+            {
+                var levelData = levelsDatabase.levels[i];
+                text.text = $"{levelData.name} - 0 / {levelData.kittens}";
+            }
+
+            btn.interactable = unlocked;
+            // No need to change sprite manually!
         }
     }
+
 
     public void Show() => gameObject.SetActive(true);
     public void Hide() => gameObject.SetActive(false);
