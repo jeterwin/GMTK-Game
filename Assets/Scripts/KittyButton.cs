@@ -4,6 +4,8 @@ using UnityEngine.Events;
 
 public class KittyButton : MonoBehaviour, IInteractable
 {
+    [SerializeField] string requiredToolName;
+
     public UnityEvent OnInteract;
 
     private GameObject currentKittyInRange;
@@ -12,8 +14,11 @@ public class KittyButton : MonoBehaviour, IInteractable
     {
         if (!KittyController.instance.isOnSwing)
         {
-            Debug.Log($"{caller.name} interacted with the button!");
-            OnInteract?.Invoke();
+            if (requiredToolName == null || requiredToolName == "" || (Inventory.Instance.HasItem(requiredToolName) && caller.CompareTag("Player")))
+            {
+                Debug.Log($"{caller.name} interacted with the button!");
+                OnInteract?.Invoke();
+            }
         }
     }
 

@@ -10,7 +10,7 @@ public class DialogueTrigger : MonoBehaviour
 
     void Update()
     {
-        if (playerInRange && !hasTriggered && !DialogueManager.Instance.IsDialogueActive && !KittyController.instance.isOnSwing)
+        if (playerInRange && !hasTriggered  && !KittyController.instance.isOnSwing)
         {
             DialogueManager.Instance.StartDialogue(dialogue);
             hasTriggered = true; // prevent restart

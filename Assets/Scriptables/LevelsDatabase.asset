@@ -20,7 +20,7 @@ MonoBehaviour:
     timeLimit: 40
     kittens: 2
   - name: Kitten Khaos
-    timeLimit: 60
+    timeLimit: 45
     kittens: 2
   - name: Feline Frenzy
     timeLimit: 60

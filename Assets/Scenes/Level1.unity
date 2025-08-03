@@ -5652,7 +5652,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeLimit: 30.1
   remainingTime: 0
-  countdownTime: 3
+  countdownTime: 0
   timeText: {fileID: 423511735}
   countdownText: {fileID: 1538057882}
   HUDCanvas: {fileID: 1965844631}

@@ -1852,6 +1852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84a89f9febb9cc4eb1588980ecd7a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  requiredToolName: Axe
   OnInteract:
     m_PersistentCalls:
       m_Calls:
@@ -2840,6 +2841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84a89f9febb9cc4eb1588980ecd7a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  requiredToolName: 
   OnInteract:
     m_PersistentCalls:
       m_Calls:
@@ -5784,6 +5786,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84a89f9febb9cc4eb1588980ecd7a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  requiredToolName: 
   OnInteract:
     m_PersistentCalls:
       m_Calls:
@@ -11158,7 +11161,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 8.566634
+  m_Radius: 12
   m_Height: 19.999998
   m_Direction: 1
   m_Center: {x: -1.433365, y: 0.00000013390968, z: -0.000000021358817}
@@ -11409,6 +11412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84a89f9febb9cc4eb1588980ecd7a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  requiredToolName: 
   OnInteract:
     m_PersistentCalls:
       m_Calls:
@@ -16393,6 +16397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84a89f9febb9cc4eb1588980ecd7a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  requiredToolName: 
   OnInteract:
     m_PersistentCalls:
       m_Calls:
@@ -17864,6 +17869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84a89f9febb9cc4eb1588980ecd7a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  requiredToolName: 
   OnInteract:
     m_PersistentCalls:
       m_Calls:

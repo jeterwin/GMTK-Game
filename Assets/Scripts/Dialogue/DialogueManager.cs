@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
@@ -25,6 +25,8 @@ public class DialogueManager : MonoBehaviour
     private Coroutine typingCoroutine;
     public bool shouldStart = true;
 
+    private Coroutine displayCoroutine;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -38,17 +40,34 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(DialogueData data)
     {
-        if (shouldStart)
+        if (!shouldStart) return;
+
+        // Stop current dialogue progression if it's running
+        if (displayCoroutine != null)
         {
-            dialogueBox.SetActive(true);
-            lineQueue.Clear();
-
-            foreach (var line in data.lines)
-                lineQueue.Enqueue(line);
-
-            StartCoroutine(DisplayDialogue());
+            StopCoroutine(displayCoroutine);
+            displayCoroutine = null;
         }
+
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+        }
+
+        isTyping = false;
+        dialogueText.text = "";
+
+        dialogueBox.SetActive(true);
+        lineQueue.Clear();
+
+        foreach (var line in data.lines)
+            lineQueue.Enqueue(line);
+
+        displayCoroutine = StartCoroutine(DisplayDialogue());
     }
+
+
 
     private IEnumerator DisplayDialogue()
     {
@@ -58,6 +77,7 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(3);
         }
         DisplayNextLine();
+        displayCoroutine = null;
     }
 
     public void DisplayNextLine()

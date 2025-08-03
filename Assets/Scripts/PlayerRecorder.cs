@@ -169,7 +169,8 @@ public class PlayerRecorder : MonoBehaviour
         normalMusic.volume = 0f;
         normalMusic.Play();
 
-
+        transform.SetParent(null); // Ensure not parented to swing before replay
+        KittyController.instance.isOnSwing = false;
 
         while (timer < fadeDuration)
         {
