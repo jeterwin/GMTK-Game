@@ -16,7 +16,7 @@ public class FirstMenuUI : MonoBehaviour
         newGameButton.onClick.AddListener(() =>
         {
             SaveSystem.InitNewGame();
-
+            LevelMenuUI.Instance.Show();
             // Load first level or level select menu
             // Example: SceneManager.LoadScene("LevelSelect");
         });
@@ -30,7 +30,7 @@ public class FirstMenuUI : MonoBehaviour
         {
             OptionsMenuUI.Instance.Show();
         });
-        
+
         quitButton.onClick.AddListener(() =>
         {
             Application.Quit();
