@@ -4403,7 +4403,7 @@ PrefabInstance:
     - target: {fileID: 1088730953245272469, guid: 0fc1c4eb8616b404e8df7108f787e74c, type: 3}
       propertyPath: postProcessing
       value: 
-      objectReference: {fileID: 1992853927}
+      objectReference: {fileID: 1992853928}
     - target: {fileID: 1088730953245272469, guid: 0fc1c4eb8616b404e8df7108f787e74c, type: 3}
       propertyPath: unFadeDuration
       value: 4
@@ -11373,7 +11373,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1992853928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11387,9 +11387,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsGlobal: 1
-  priority: 0
+  priority: 1
   blendDistance: 0
-  weight: 1
+  weight: 0
   sharedProfile: {fileID: 11400000, guid: 2bf7d3eae9f39be41aaaf99f7d0cd2b8, type: 2}
 --- !u!4 &1992853929
 Transform:

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerRecorder : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class PlayerRecorder : MonoBehaviour
     [SerializeField] AudioSource normalMusic;
     [SerializeField] AudioSource rewindMusic;
     [SerializeField] MinimapTracker minimapTracker;
-    public GameObject postProcessing;
+    public Volume postProcessing;
     
     private Rigidbody rb;
 
@@ -90,7 +91,7 @@ public class PlayerRecorder : MonoBehaviour
         float fadeDuration = 2f;
         float timer = 0f;
 
-        postProcessing.SetActive(true);
+        postProcessing.weight = 0;
 
         rewindMusic.pitch = 0f;
         rewindMusic.volume = 0f;
@@ -110,10 +111,13 @@ public class PlayerRecorder : MonoBehaviour
             playerMovement.speedMultiplier = Mathf.Lerp(1f, 0f, t);
             timeManager.decreaseTimeMultiplier = Mathf.Lerp(1f, 0f, t);
 
+            postProcessing.weight = Mathf.Lerp(0f, 2f, t);
+
             timer += Time.deltaTime;
             yield return null;
         }
 
+        postProcessing.weight = 2;
         normalMusic.pitch = 0f;
         normalMusic.volume = 0f;
         rewindMusic.pitch = 1f;
@@ -168,6 +172,8 @@ public class PlayerRecorder : MonoBehaviour
             playerMovement.speedMultiplier = Mathf.Lerp(0f, 1f, t);
             timeManager.decreaseTimeMultiplier = Mathf.Lerp(0f, 1f, t);
 
+            postProcessing.weight = Mathf.Lerp(2f, 0f, t);
+
             timer += Time.deltaTime;
             yield return null;
         }
@@ -180,6 +186,7 @@ public class PlayerRecorder : MonoBehaviour
         playerMovement.speedMultiplier = 1f;
         timeManager.decreaseTimeMultiplier = 1f;
         timeManager.decreaseTime = true;
+        postProcessing.weight = 0;
 
         // Re-enable movement & physics
         playerMovement.enabled = true;
@@ -187,8 +194,6 @@ public class PlayerRecorder : MonoBehaviour
         currentSegment.Clear();
         timer = 0f;
         allowRecording = true;
-
-        postProcessing.SetActive(false);
 
         foreach (var segment in rewindSegments)
         {
