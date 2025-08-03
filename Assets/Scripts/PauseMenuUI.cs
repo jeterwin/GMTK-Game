@@ -26,6 +26,8 @@ public class PauseMenuUI : MonoBehaviour
         resumeButton.onClick.AddListener(() =>
         {
             Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             Hide();
         });
 

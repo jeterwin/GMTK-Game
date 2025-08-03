@@ -7,6 +7,12 @@ public class KittyClone : MonoBehaviour
     private List<PlayerFrameData> playbackData;
     private List<InventoryItem> inventory = new List<InventoryItem>();
 
+    private Animator animator;
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     public void Init(List<PlayerFrameData> segment)
     {
         try
@@ -23,18 +29,23 @@ public class KittyClone : MonoBehaviour
 
     IEnumerator PlayReplay()
     {
-        foreach (var frame in playbackData)
+        for (int i = 0; i < playbackData.Count;)
         {
-            transform.position = frame.position;
-            transform.rotation = frame.rotation;
-
-            // Play animation if needed
-            PlayAnimation(frame.animationState);
-
-            // Trigger interaction if this frame recorded a press
-            if (frame.interactionPressed)
+            if (Time.timeScale != 0)
             {
-                TriggerInteraction(); // Define this method to call nearby IInteractables
+                var frame = playbackData[i];
+
+                transform.position = frame.position;
+                transform.rotation = frame.rotation;
+
+                PlayAnimation(frame.animationState);
+
+                if (frame.interactionPressed)
+                {
+                    TriggerInteraction();
+                }
+
+                i++; // Advance to next frame only after processing
             }
 
             yield return new WaitForEndOfFrame();
@@ -42,6 +53,7 @@ public class KittyClone : MonoBehaviour
 
         Destroy(gameObject);
     }
+
 
     void PlayAnimation(string animState) {
         // Your Animator handling

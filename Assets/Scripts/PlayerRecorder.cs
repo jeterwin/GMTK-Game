@@ -19,7 +19,7 @@ public class PlayerRecorder : MonoBehaviour
 
     private float timer = 0f;
 
-    private bool isRewinding = false;
+    public bool isRewinding = false;
     private bool allowRecording = true;
     private int rewindIndex;
 
@@ -136,18 +136,28 @@ public class PlayerRecorder : MonoBehaviour
 
         playerMovement.runSound.pitch = 0f;
 
+        DialogueManager.Instance.shouldStart = false;
+
         float timeToRestore = timeManager.timeLimit - timeManager.remainingTime;
         // Play rewind frames with manual camera update
-        for (int i = currentSegment.Count - 1; i >= 0; i-=2)
+        for (int i = currentSegment.Count - 1; i >= 0;)
         {
-            timeManager.remainingTime += timeToRestore * 2 / currentSegment.Count;
-            PlayerFrameData frame = currentSegment[i];
-            playerMovement.cameraRoot.position = frame.cameraPosition;
-            playerMovement.cameraRoot.rotation = frame.cameraRotation;
-            transform.position = frame.position;
-            transform.rotation = frame.rotation;
-            yield return new WaitForEndOfFrame();
+            if (Time.timeScale != 0)
+            {
+                timeManager.remainingTime += timeToRestore * 4 / currentSegment.Count;
+                PlayerFrameData frame = currentSegment[i];
+
+                playerMovement.cameraRoot.position = frame.cameraPosition;
+                playerMovement.cameraRoot.rotation = frame.cameraRotation;
+                transform.position = frame.position;
+                transform.rotation = frame.rotation;
+
+                i -= 4; // Move to previous frame only if not paused
+            }
+
+            yield return new WaitForEndOfFrame(); // Always yield so Unity doesn't freeze
         }
+
 
         // Save rewind segment, spawn clones, etc.
         List<PlayerFrameData> copiedSegment = new List<PlayerFrameData>(currentSegment);
@@ -196,6 +206,7 @@ public class PlayerRecorder : MonoBehaviour
         currentSegment.Clear();
         timer = 0f;
         allowRecording = true;
+        DialogueManager.Instance.shouldStart = true;
 
         foreach (var segment in rewindSegments)
         {
