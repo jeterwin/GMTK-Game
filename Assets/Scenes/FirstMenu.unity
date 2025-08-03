@@ -1609,6 +1609,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   closeButton: {fileID: 479411550}
+  howToPlayText: {fileID: 1679346255}
+  fullText: "You're a mama cat, and your kittens are in trouble! It's up to you to
+    find and rescue them \u2014 but you're not alone. You have a special power: the
+    ability to rewind time. When you rewind, your past self keeps moving, allowing
+    you to team up with your earlier actions to save all your kittens before time
+    runs out.\n\r\nObjective:\r\n    Rescue all the kittens in each level to win.\r\n   
+    If the timer reaches 0 before all kittens are saved, you lose.\r\n    You can
+    see your objectives on the mini-map \u2014 use it to plan your moves!\r\n\nControls:\r\n   
+    WASD \u2013 Move\r\n    Space \u2013 Jump\r\n    E \u2013 Interact\r\n    R \u2013
+    Rewind time (your past self will repeat your previous actions)\r\n    Esc \u2013
+    Pause the game\r\n\r\nYou can also hop onto swings by jumping on them \u2014
+    some areas might need a bit of clever movement or time rewinding to reach!\r\n\r\nUse
+    your time-bending powers wisely to outsmart the clock and reunite with all your
+    kittens. Good luck, mama!"
+  typingSpeed: 0.02
 --- !u!1 &286728102
 GameObject:
   m_ObjectHideFlags: 0
@@ -3985,8 +4000,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: X
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 537eb1eef138da7489d2d0c861629654, type: 2}
-  m_sharedMaterial: {fileID: -2009162042594335899, guid: 537eb1eef138da7489d2d0c861629654, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 59ee34472c5892a4196858080cc2141e, type: 2}
+  m_sharedMaterial: {fileID: -7472687217148228796, guid: 59ee34472c5892a4196858080cc2141e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4619,8 +4634,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: How To Play
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 537eb1eef138da7489d2d0c861629654, type: 2}
-  m_sharedMaterial: {fileID: -2009162042594335899, guid: 537eb1eef138da7489d2d0c861629654, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 59ee34472c5892a4196858080cc2141e, type: 2}
+  m_sharedMaterial: {fileID: -7472687217148228796, guid: 59ee34472c5892a4196858080cc2141e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
