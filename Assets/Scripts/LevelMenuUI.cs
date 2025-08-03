@@ -35,7 +35,7 @@ public class LevelMenuUI : MonoBehaviour
             if (i < levelsDatabase.levels.Count)
             {
                 var levelData = levelsDatabase.levels[i];
-                text.text = $"{levelData.name} - 0 / {levelData.kittens}";
+                text.text = $"{levelData.name} -        {levelData.kittens}";
             }
 
             btn.interactable = unlocked;

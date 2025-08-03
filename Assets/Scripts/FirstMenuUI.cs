@@ -18,10 +18,9 @@ public class FirstMenuUI : MonoBehaviour
         newGameButton.onClick.AddListener(() =>
         {
             SaveSystem.InitNewGame();
-            LevelMenuUI.Instance.Show();
-            // Load first level or level select menu
-            // Example: SceneManager.LoadScene("LevelSelect");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         });
+
 
         continueButton.onClick.AddListener(() =>
         {
@@ -43,4 +42,13 @@ public class FirstMenuUI : MonoBehaviour
             HowToPlayMenuUI.Instance.Show();
         });
     }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Show LevelMenuUI after scene reload
+        LevelMenuUI.Instance.Show();
+
+        // Unsubscribe so it only runs once
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
 }
