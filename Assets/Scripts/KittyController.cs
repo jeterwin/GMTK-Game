@@ -198,7 +198,7 @@ public class KittyController : MonoBehaviour
         transform.SetParent(null);
         rb.isKinematic = false;
 
-        rb.linearVelocity = swingArm.forward * -12f + Vector3.up * 7f;
+        rb.linearVelocity = swingArm.forward * -14f + Vector3.up * 7f;
 
         lastSwingDetachTime = Time.time;
     }
