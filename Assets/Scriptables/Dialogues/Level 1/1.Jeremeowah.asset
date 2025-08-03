@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 489c7d71481f0bb4fa8cf2a50103c1ca, type: 3}
-  m_Name: 1.Jeremeowah Mum
+  m_Name: 1.Jeremeowah
   m_EditorClassIdentifier: 
   lines:
   - speakerName: Jeremeowah

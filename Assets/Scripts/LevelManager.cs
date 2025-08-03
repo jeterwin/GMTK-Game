@@ -24,6 +24,7 @@ public class LevelManager : MonoBehaviour
         kittensFound++;
         if (kittensFound >= kittensTotal)
         {
+            DialogueManager.Instance.dialogueBox.SetActive(false);
             Time.timeScale = 0;
             winScreen.SetActive(true);
             Cursor.lockState = CursorLockMode.None;

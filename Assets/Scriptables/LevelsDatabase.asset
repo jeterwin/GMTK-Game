@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - name: Tail Troubles
-    timeLimit: 60
-    kittens: 2
+    timeLimit: 30
+    kittens: 1
   - name: Paw Panic
-    timeLimit: 60
+    timeLimit: 40
     kittens: 2
   - name: Kitten Khaos
     timeLimit: 60
