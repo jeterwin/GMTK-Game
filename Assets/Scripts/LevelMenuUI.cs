@@ -1,5 +1,7 @@
+using CitrioN.Common;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelMenuUI : MonoBehaviour
@@ -44,4 +46,12 @@ public class LevelMenuUI : MonoBehaviour
 
     public void Show() => gameObject.SetActive(true);
     public void Hide() => gameObject.SetActive(false);
+
+    public void OpenLevel(int levelIndex)
+    {
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        SceneManager.LoadScene(levelIndex);
+    }
 }
