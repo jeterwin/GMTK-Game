@@ -26,7 +26,7 @@ public class PlayerRecorder : MonoBehaviour
     [SerializeField] AudioSource normalMusic;
     [SerializeField] AudioSource rewindMusic;
     [SerializeField] MinimapTracker minimapTracker;
-    public GreyscaleFade greyscaleFade;
+    public GameObject postProcessing;
     
     private Rigidbody rb;
 
@@ -90,15 +90,12 @@ public class PlayerRecorder : MonoBehaviour
         float fadeDuration = 2f;
         float timer = 0f;
 
+        postProcessing.SetActive(true);
+
         rewindMusic.pitch = 0f;
         rewindMusic.volume = 0f;
         yield return null;
         rewindMusic.Play();
-
-        if (greyscaleFade != null)
-        {
-            greyscaleFade.FadeToGrayscale(fadeDuration);
-        }
 
         while (timer < fadeDuration)
         {
@@ -156,10 +153,7 @@ public class PlayerRecorder : MonoBehaviour
         normalMusic.volume = 0f;
         normalMusic.Play();
 
-        if (greyscaleFade != null)
-        {
-            greyscaleFade.FadeToColor(fadeDuration);
-        }
+
 
         while (timer < fadeDuration)
         {
@@ -193,6 +187,8 @@ public class PlayerRecorder : MonoBehaviour
         currentSegment.Clear();
         timer = 0f;
         allowRecording = true;
+
+        postProcessing.SetActive(false);
 
         foreach (var segment in rewindSegments)
         {
