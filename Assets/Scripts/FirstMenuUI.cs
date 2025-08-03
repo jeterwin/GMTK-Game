@@ -12,18 +12,25 @@ public class FirstMenuUI : MonoBehaviour
     private void Awake()
     {
         continueButton.gameObject.SetActive(SaveSystem.HasGameStarted());
+
         newGameButton.onClick.AddListener(() =>
         {
-            LevelMenuUI.Instance.Show();
+            SaveSystem.InitNewGame();
+
+            // Load first level or level select menu
+            // Example: SceneManager.LoadScene("LevelSelect");
         });
+
         continueButton.onClick.AddListener(() =>
         {
             LevelMenuUI.Instance.Show();
         });
+
         optionsButton.onClick.AddListener(() =>
         {
             OptionsMenuUI.Instance.Show();
         });
+        
         quitButton.onClick.AddListener(() =>
         {
             Application.Quit();
