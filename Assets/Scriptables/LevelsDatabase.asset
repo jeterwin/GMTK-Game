@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: LevelsDatabase
   m_EditorClassIdentifier: 
   levels:
-  - name: Whisker Worries
-    timeLimit: 60
-    kittens: 2
   - name: Tail Troubles
     timeLimit: 60
     kittens: 2
@@ -27,4 +24,4 @@ MonoBehaviour:
     kittens: 2
   - name: Feline Frenzy
     timeLimit: 60
-    kittens: 2
+    kittens: 3
