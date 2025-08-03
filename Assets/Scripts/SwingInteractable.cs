@@ -1,16 +1,24 @@
+using System;
 using UnityEngine;
 
 public class SwingInteractable : MonoBehaviour, IInteractable
 {
     public Transform swingArm;             // The part that rotates
-    public float maxSwingAngle = 45f;      // Max angle in degrees
+    public float maxSwingAngle = 90f;      // Max angle in degrees
     public float swingSpeed = 2f;          // How fast it swings
     public float pushIncrement = 5f;       // How much to add per push
     public float dampingSpeed = 1f;        // How fast it slows down
 
-    private float currentAmplitude = 0f;   // Current swing amplitude
+    public float currentAmplitude = 0f;   // Current swing amplitude
     private float time = 0f;
     private bool isSwinging = false;
+
+    [SerializeField] SphereCollider swingCollider;
+
+    void Start()
+    {
+        KittyController.instance.swingArm = swingArm;
+    }
 
     void Update()
     {

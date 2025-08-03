@@ -27,6 +27,7 @@ public class PlayerRecorder : MonoBehaviour
     [SerializeField] AudioSource normalMusic;
     [SerializeField] AudioSource rewindMusic;
     [SerializeField] MinimapTracker minimapTracker;
+    [SerializeField] SwingInteractable swing;
     public Volume postProcessing;
     
     private Rigidbody rb;
@@ -81,6 +82,7 @@ public class PlayerRecorder : MonoBehaviour
     {
         if (!isRewinding && currentSegment.Count > 0 && clonesUsed < 9)
         {
+            swing.currentAmplitude = 0;
             StartCoroutine(HandleRewind());
         }
     }
