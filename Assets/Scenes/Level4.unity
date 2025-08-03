@@ -5896,17 +5896,17 @@ MonoBehaviour:
   timeLimit: 30.1
   remainingTime: 0
   countdownTime: 0
-  timeText: {fileID: 0}
+  timeText: {fileID: 594019617}
   countdownText: {fileID: 1538057882}
-  HUDCanvas: {fileID: 0}
+  HUDCanvas: {fileID: 1615617144}
   countdownCanvas: {fileID: 1726817053}
-  timeAnimator: {fileID: 0}
+  timeAnimator: {fileID: 594019616}
   countdownAnimator: {fileID: 1538057884}
   flashInterval: 10
   decreaseTime: 0
   music: {fileID: 1837127820}
   decreaseTimeMultiplier: 1
-  loseScreen: {fileID: 0}
+  loseScreen: {fileID: 1397651189}
   playerRecorder: {fileID: 982197196}
 --- !u!114 &840673698
 MonoBehaviour:
@@ -6032,7 +6032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5fe080f04be3e42baf257cec7bef75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotParent: {fileID: 0}
+  slotParent: {fileID: 1261118453}
   slotPrefab: {fileID: 5423496472346458424, guid: 2715142c172ebdd4d8c3eeee08818ba7, type: 3}
 --- !u!114 &840673703
 MonoBehaviour:
@@ -6048,7 +6048,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 3
   levelsDatabase: {fileID: 11400000, guid: 1a1eb4861affac247bd5b6cd8c48250d, type: 2}
-  winScreen: {fileID: 0}
+  winScreen: {fileID: 1838155267}
   timeLimit: 0
 --- !u!114 &840673704
 MonoBehaviour:
@@ -6062,7 +6062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fd968c1863dee74d8b3a1ff50514829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenuUI: {fileID: 0}
+  pauseMenuUI: {fileID: 499110871}
 --- !u!1 &857513046
 GameObject:
   m_ObjectHideFlags: 0
@@ -7058,7 +7058,7 @@ PrefabInstance:
     - target: {fileID: 1088730953245272469, guid: 0fc1c4eb8616b404e8df7108f787e74c, type: 3}
       propertyPath: clonesText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 924205793}
     - target: {fileID: 1088730953245272469, guid: 0fc1c4eb8616b404e8df7108f787e74c, type: 3}
       propertyPath: clonePrefab
       value: 
@@ -10926,7 +10926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1281241296}
-  minimapRect: {fileID: 0}
+  minimapRect: {fileID: 1160024353}
   playerIcon: {fileID: 8843960235985880407, guid: 2723f5f4d3e37b345b4ea66003f0b33c, type: 3}
   kittenIconPrefab: {fileID: 8843960235985880407, guid: 6e11d36c10cd09346bb82849bfc00836, type: 3}
   taskGlowPrefab: {fileID: 8843960235985880407, guid: 7fbbd7c0d3158424a90a889e044ed0bb, type: 3}
