@@ -17,7 +17,7 @@ namespace MicahW.PointGrass {
 
         private Vector3 currentNoisePosition;
 
-        private static int ID_vecA, ID_vecB, ID_valA;
+        private static int ID_vecA, ID_vecB, ID_floatA;
 
 #if UNITY_EDITOR
         private double previousEditorTime = 0f;
@@ -73,7 +73,7 @@ namespace MicahW.PointGrass {
         private static void GetShaderIDs() {
             ID_vecA = Shader.PropertyToID("_PG_VectorA");
             ID_vecB = Shader.PropertyToID("_PG_VectorB");
-            ID_valA = Shader.PropertyToID("_PG_ValueA");
+            ID_floatA = Shader.PropertyToID("_PG_ValueA");
         }
 
         public void RefreshValues() {
@@ -81,7 +81,7 @@ namespace MicahW.PointGrass {
 
             Shader.SetGlobalVector(ID_vecA, properties.vecA);
             Shader.SetGlobalVector(ID_vecB, properties.vecB);
-            Shader.SetGlobalFloat(ID_valA, properties.valA);
+            Shader.SetGlobalFloat(ID_floatA, properties.valA);
         }
         private PackedProperties PackProperties() => new PackedProperties(windDirection, currentNoisePosition, noiseRange, windScale);
 
