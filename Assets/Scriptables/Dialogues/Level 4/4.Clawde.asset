@@ -17,5 +17,5 @@ MonoBehaviour:
     requiredItemName: 
     missingItemText: 
     text: I CAN SEE THE WHOLE WORLD FROM UP HERE!!!
-    portrait: {fileID: 21300000, guid: 7618a38e388d9e54a9a350ec1c7b437f, type: 3}
+    portrait: {fileID: 21300000, guid: d3b3fa8fe92b0d04d97f5ad24280e29c, type: 3}
     meowerType: 1
