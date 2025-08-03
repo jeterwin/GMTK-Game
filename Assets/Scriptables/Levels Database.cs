@@ -5,10 +5,10 @@ using System;
 [CreateAssetMenu(fileName = "LevelsDatabase", menuName = "Scriptable Objects/LevelsDatabase")]
 public class LevelsDatabase : ScriptableObject
 {
-    [SerializeField] List<LevelData> levels;
+    [SerializeField] public List<LevelData> levels;
 
     [Serializable]
-    private class LevelData
+    public class LevelData
     {
         public string name;
         public int timeLimit;
