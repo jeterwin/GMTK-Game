@@ -14,4 +14,14 @@ public class LevelsDatabase : ScriptableObject
         public int timeLimit;
         public int kittens;
     }
+
+    public int GetTimeLimit(int level)
+    {
+        return levels[level].timeLimit;
+    }
+
+    public int GetKittens(int level)
+    {
+        return levels[level].kittens;
+    }
 }

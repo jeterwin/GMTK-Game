@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Kitten
   - Task
+  - Clone
   layers:
   - Default
   - TransparentFX

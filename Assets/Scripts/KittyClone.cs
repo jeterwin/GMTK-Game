@@ -5,12 +5,20 @@ using UnityEngine;
 public class KittyClone : MonoBehaviour
 {
     private List<PlayerFrameData> playbackData;
-    private int currentFrame = 0;
+    private List<InventoryItem> inventory = new List<InventoryItem>();
 
-    public void Init(List<PlayerFrameData> data)
+    public void Init(List<PlayerFrameData> segment)
     {
-        playbackData = data;
-        StartCoroutine(PlayReplay());
+        try
+        {        
+            playbackData = segment;
+            SetCloneInventory(segment[segment.Count - 1].inventorySnapshot); // Snapshot at rewind
+            StartCoroutine(PlayReplay());
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("Clone Init failed: " + ex.Message);
+        }
     }
 
     IEnumerator PlayReplay()
@@ -49,6 +57,22 @@ public class KittyClone : MonoBehaviour
             {
                 interactable.Interact(gameObject); // Pass the clone as the caller
             }
+        }
+    }
+
+    void SetCloneInventory(List<string> itemNames)
+    {
+        if (itemNames == null) return;
+
+        inventory = new List<InventoryItem>();
+
+        foreach (var name in itemNames)
+        {
+            var item = InventoryDatabase.Instance?.GetItemByName(name);
+            if (item != null)
+                inventory.Add(item);
+            else
+                Debug.LogWarning($"Item not found in database: {name}");
         }
     }
 }

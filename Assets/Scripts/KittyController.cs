@@ -59,6 +59,9 @@ public class KittyController : MonoBehaviour
     private Vector2 smoothMouseDelta;
     private Vector2 currentMouseVelocity;
     public float smoothTime = 0.05f;  // tweak this value to your liking
+    public float speedMultiplier = 1f;
+
+    public AudioSource runSound;
 
     private void Awake()
     {
@@ -67,6 +70,8 @@ public class KittyController : MonoBehaviour
 
     void Start()
     {
+        runSound.pitch = 0;
+        runSound.Play();
         swaySpeed = normalSwaySpeed;
         box = GetComponent<BoxCollider>();
         rb = GetComponent<Rigidbody>();
@@ -77,12 +82,6 @@ public class KittyController : MonoBehaviour
 
     void Update()
     {
-        // Position cameraRoot at character position + offset
-        cameraRoot.position = transform.position
-            + transform.forward * cameraOffset.z
-            + transform.right * cameraOffset.x
-            + transform.up * cameraOffset.y;
-
         HandleMouseLook();
         HandleInput();
         UpdateTiltAndBounce();
@@ -93,6 +92,16 @@ public class KittyController : MonoBehaviour
     {
         Move();
     }
+
+    void LateUpdate()
+    {
+        UpdateCameraPosition();
+        cameraRoot.position = transform.position
+            + transform.forward * cameraOffset.z
+            + transform.right * cameraOffset.x
+            + transform.up * cameraOffset.y;
+    }
+
 
     void HandleInput()
     {
@@ -109,6 +118,18 @@ public class KittyController : MonoBehaviour
             swaySpeed = normalSwaySpeed;
         }
 
+        if(!IsGrounded() || input == Vector3.zero)
+        {
+            runSound.pitch = 0;
+        } else if (isRunning)
+        {
+            runSound.pitch = 1f;
+        }
+        else
+        {
+            runSound.pitch = .7f;
+        }
+
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -118,11 +139,11 @@ public class KittyController : MonoBehaviour
     void Move()
     {
         Vector3 moveDir = transform.forward * input.z + transform.right * input.x;
-        float currentSpeed = isRunning ? moveSpeed * runMultiplier : moveSpeed;
+        float currentSpeed = (isRunning ? moveSpeed * runMultiplier : moveSpeed) * speedMultiplier;  // multiply speed here
+
         Vector3 targetVelocity = moveDir * currentSpeed;
 
-
-        Vector3 currentVelocity = rb.linearVelocity;
+        Vector3 currentVelocity = rb.linearVelocity;  // note: use rb.velocity, not linearVelocity unless you're on Unity 2023.1+
 
         Vector3 velocityChange = new Vector3(
             targetVelocity.x - currentVelocity.x,
@@ -132,20 +153,21 @@ public class KittyController : MonoBehaviour
 
         float control = IsGrounded() ? 1f : airControlFactor;
 
-        rb.AddForce(velocityChange * acceleration * control, ForceMode.Acceleration);
+        rb.AddForce(velocityChange * acceleration * speedMultiplier * control, ForceMode.Acceleration);  // multiply acceleration here
 
         Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-        if (horizontalVelocity.magnitude > maxHorizontalSpeed)
+        if (horizontalVelocity.magnitude > maxHorizontalSpeed * speedMultiplier)  // max speed scaled
         {
-            Vector3 limitedVelocity = horizontalVelocity.normalized * maxHorizontalSpeed;
+            Vector3 limitedVelocity = horizontalVelocity.normalized * maxHorizontalSpeed * speedMultiplier;
             rb.linearVelocity = new Vector3(limitedVelocity.x, rb.linearVelocity.y, limitedVelocity.z);
         }
 
         if (!IsGrounded())
         {
-            rb.linearVelocity *= (1f - airDrag * Time.fixedDeltaTime);
+            rb.linearVelocity *= (1f - airDrag * Time.fixedDeltaTime);  // air drag stays same
         }
     }
+
 
     void HandleMouseLook()
     {
@@ -248,6 +270,10 @@ public class KittyController : MonoBehaviour
         float sway = Mathf.Sin(Time.time * swaySpeed) * swayAmount * input.magnitude;
         float bob = Mathf.Abs(Mathf.Cos(Time.time * swaySpeed * 2)) * swayAmount * 0.3f * input.magnitude;
         Vector3 swayOffset = new Vector3(sway, bob, 0f);
+        if (!IsGrounded())
+        {
+            swayOffset = new Vector3(0, 0, 0);
+        }
 
         // Combine sway and bounce offsets for final camera local position
         Vector3 finalOffset = originalCamLocalPos + swayOffset + new Vector3(0f, bounceOffset, 0f);
@@ -260,10 +286,10 @@ public class KittyController : MonoBehaviour
     {
         if (!box) return false;
 
-        Vector3 boxCenterWorld = transform.position + box.center - new Vector3(0, box.size.y / 2f + 0.05f, 0);
-        Vector3 halfExtents = new Vector3(box.size.x * 0.5f * 0.95f, 0.05f, box.size.z * 0.5f * 0.95f);
+        Vector3 halfExtents = box.size * 0.5f;
 
-        return Physics.CheckBox(boxCenterWorld, halfExtents, transform.rotation, groundLayer, QueryTriggerInteraction.Ignore);
+        return Physics.BoxCast(transform.position, halfExtents, Vector3.down,
+            out RaycastHit hitInfo, transform.rotation, groundCheckDistance, groundLayer);
     }
 
 }

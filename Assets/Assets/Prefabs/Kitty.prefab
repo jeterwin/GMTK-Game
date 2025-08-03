@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 2388820475405620142}
   m_Layer: 0
   m_Name: Kitty
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -272,6 +272,7 @@ MonoBehaviour:
   timeManager: {fileID: 0}
   normalMusic: {fileID: 0}
   rewindMusic: {fileID: 0}
+  minimapTracker: {fileID: 0}
 --- !u!114 &2388820475405620142
 MonoBehaviour:
   m_ObjectHideFlags: 0

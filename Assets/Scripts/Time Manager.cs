@@ -18,6 +18,7 @@ public class TimeManager : MonoBehaviour
     [SerializeField] float flashInterval = 10f;
     public bool decreaseTime;
     [SerializeField] AudioSource music;
+    public float decreaseTimeMultiplier = 1f;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class TimeManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        timeLimit = LevelManager.Instance.timeLimit;
         decreaseTime = false;
         countdownText.text = countdownTime.ToString("F1") + "s"; // Display initial countdown time with 1 decimal place   
         timeText.text = timeLimit.ToString("F2") + "s"; // Display initial time limit with 2 decimal places
@@ -36,6 +38,10 @@ public class TimeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (decreaseTime)
+        {
+            remainingTime -= Time.deltaTime * decreaseTimeMultiplier;
+        }
         if (remainingTime > 0 )
         {
             if (decreaseTime)

@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerRecorder : MonoBehaviour
 {
     public float recordDuration = 5f;
     public GameObject clonePrefab;
+
+    public float fadeDuration = 2f;
+    public float unFadeDuration = 2f;
 
     [SerializeField] private KittyController playerMovement;
 
@@ -22,11 +27,28 @@ public class PlayerRecorder : MonoBehaviour
     [SerializeField] AudioSource normalMusic;
     [SerializeField] AudioSource rewindMusic;
     [SerializeField] MinimapTracker minimapTracker;
-
+    public Volume postProcessing;
+    
     private Rigidbody rb;
+
+    private int clonesUsed = 0;
+
+    [SerializeField] TMP_Text clonesText;
+
+    IEnumerator PreloadAudio()
+    {
+        rewindMusic.volume = 0f;
+        rewindMusic.Play();
+        yield return new WaitForSeconds(0.1f);
+        rewindMusic.Stop();
+        rewindMusic.volume = 1f;
+    }
 
     void Start()
     {
+        clonesUsed = 0;
+        clonesText.text = "0/9";
+        StartCoroutine(PreloadAudio());
         recordDuration = TimeManager.Instance.timeLimit;
         rb = GetComponent<Rigidbody>();
     }
@@ -43,8 +65,9 @@ public class PlayerRecorder : MonoBehaviour
                 rotation = transform.rotation,
                 animationState = GetCurrentAnimationState(),
                 interactionPressed = Input.GetKeyDown(KeyCode.E),
-                cameraPosition = playerMovement.cameraRoot.transform.position,
-                cameraRotation = playerMovement.cameraRoot.transform.rotation
+                inventorySnapshot = new List<string>(Inventory.Instance.items.ConvertAll(i => i.itemName)),
+                cameraPosition = playerMovement.cameraRoot.position,
+                cameraRotation = playerMovement.cameraRoot.rotation
             });
 
             if (timer > recordDuration)
@@ -56,44 +79,121 @@ public class PlayerRecorder : MonoBehaviour
 
     public void TriggerRewind()
     {
-        if (!isRewinding && currentSegment.Count > 0)
+        if (!isRewinding && currentSegment.Count > 0 && clonesUsed < 9)
         {
             StartCoroutine(HandleRewind());
         }
     }
-
     private IEnumerator HandleRewind()
     {
         isRewinding = true;
+
+        float fadeDuration = 2f;
+        float timer = 0f;
+
+        postProcessing.weight = 0;
+
+        rewindMusic.pitch = 0f;
+        rewindMusic.volume = 0f;
+        yield return null;
+        rewindMusic.Play();
+
+        while (timer < fadeDuration)
+        {
+            float t = timer / fadeDuration;
+
+            normalMusic.pitch = Mathf.Lerp(1f, 0f, t);
+            normalMusic.volume = Mathf.Lerp(1f, 0f, t);
+
+            rewindMusic.pitch = Mathf.Lerp(0f, 1f, t);
+            rewindMusic.volume = Mathf.Lerp(0f, 1f, t);
+
+            playerMovement.speedMultiplier = Mathf.Lerp(1f, 0f, t);
+            timeManager.decreaseTimeMultiplier = Mathf.Lerp(1f, 0f, t);
+
+            postProcessing.weight = Mathf.Lerp(0f, 2f, t);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        postProcessing.weight = 2;
+        normalMusic.pitch = 0f;
+        normalMusic.volume = 0f;
+        rewindMusic.pitch = 1f;
+        rewindMusic.volume = 1f;
+        normalMusic.Stop();
+
+        // Now disable player control & physics for rewind playback
         allowRecording = false;
         playerMovement.enabled = false;
         rb.isKinematic = true;
         timeManager.decreaseTime = false;
-        rewindMusic.Play();
-        normalMusic.Stop();
+        playerMovement.speedMultiplier = 0f;
+        timeManager.decreaseTimeMultiplier = 0f;
 
-        var timeToRewind = timeManager.timeLimit - timeManager.remainingTime;
+        playerMovement.runSound.pitch = 0f;
 
-        for (int i = currentSegment.Count - 1; i >= 0; i -= 4)
+        float timeToRestore = timeManager.timeLimit - timeManager.remainingTime;
+        // Play rewind frames with manual camera update
+        for (int i = currentSegment.Count - 1; i >= 0; i-=2)
         {
-            timeManager.remainingTime += timeToRewind * 4 / currentSegment.Count;
+            timeManager.remainingTime += timeToRestore * 2 / currentSegment.Count;
             PlayerFrameData frame = currentSegment[i];
-            playerMovement.cameraRoot.transform.position = frame.position;
+            playerMovement.cameraRoot.position = frame.cameraPosition;
+            playerMovement.cameraRoot.rotation = frame.cameraRotation;
             transform.position = frame.position;
             transform.rotation = frame.rotation;
-            playerMovement.cameraRoot.transform.rotation = frame.cameraRotation;
-            playerMovement.cameraRoot.transform.position = frame.cameraPosition;
             yield return new WaitForEndOfFrame();
         }
 
-        // Save this segment
+        // Save rewind segment, spawn clones, etc.
         List<PlayerFrameData> copiedSegment = new List<PlayerFrameData>(currentSegment);
         rewindSegments.Add(copiedSegment);
 
+        // Fade back from rewindMusic to normalMusic, restoring speeds & time decrease
+        timer = 0f;
+        normalMusic.pitch = 0f;
+        normalMusic.volume = 0f;
         normalMusic.Play();
+
+
+
+        while (timer < fadeDuration)
+        {
+            float t = timer / fadeDuration;
+
+            rewindMusic.pitch = Mathf.Lerp(1f, 0f, t);
+            rewindMusic.volume = Mathf.Lerp(1f, 0f, t);
+
+            normalMusic.pitch = Mathf.Lerp(0f, 1f, t);
+            normalMusic.volume = Mathf.Lerp(0f, 1f, t);
+
+            playerMovement.speedMultiplier = Mathf.Lerp(0f, 1f, t);
+            timeManager.decreaseTimeMultiplier = Mathf.Lerp(0f, 1f, t);
+
+            postProcessing.weight = Mathf.Lerp(2f, 0f, t);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
         rewindMusic.Stop();
-        timeManager.remainingTime = timeManager.timeLimit;
+
+        // Finalize exact values
+        normalMusic.pitch = 1f;
+        normalMusic.volume = 1f;
+        playerMovement.speedMultiplier = 1f;
+        timeManager.decreaseTimeMultiplier = 1f;
         timeManager.decreaseTime = true;
+        postProcessing.weight = 0;
+
+        // Re-enable movement & physics
+        playerMovement.enabled = true;
+        rb.isKinematic = false;
+        currentSegment.Clear();
+        timer = 0f;
+        allowRecording = true;
 
         foreach (var segment in rewindSegments)
         {
@@ -101,18 +201,18 @@ public class PlayerRecorder : MonoBehaviour
             {
                 GameObject clone = Instantiate(clonePrefab, segment[0].position, segment[0].rotation);
                 KittyClone cloneScript = clone.GetComponent<KittyClone>();
-                cloneScript.Init(new List<PlayerFrameData>(segment)); // make a defensive copy
-                // Spawn clone to replay original movements
+                cloneScript.Init(new List<PlayerFrameData>(segment));
                 minimapTracker.AddCloneIcon(clone);
-            }
-        };
 
-        // Resume control
-        currentSegment.Clear();
-        timer = 0f;
-        rb.isKinematic = false;
-        playerMovement.enabled = true;
-        allowRecording = true;
+                yield return null; // wait a frame to spread the load
+            }
+        }
+        clonesUsed += 1;
+        clonesText.text = $"{clonesUsed}/9";
+        if(clonesUsed == 9)
+        {
+            clonesText.color = new Color(0.8f, 0.2f, 0.2f);
+        }
         isRewinding = false;
     }
 
@@ -136,4 +236,6 @@ public struct PlayerFrameData
     public bool interactionPressed;
     public Vector3 cameraPosition;
     public Quaternion cameraRotation;
+
+    public List<string> inventorySnapshot; // Store item names only
 }

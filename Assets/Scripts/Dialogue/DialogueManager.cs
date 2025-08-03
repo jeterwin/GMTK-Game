@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogueText;
     public Image portraitImage;
+    public AudioSource momMeow;
+    public AudioSource kittenMeow;
+
     public bool IsDialogueActive => dialogueBox.activeSelf;
 
     private Queue<DialogueLine> lineQueue = new Queue<DialogueLine>();
@@ -39,7 +43,16 @@ public class DialogueManager : MonoBehaviour
         foreach (var line in data.lines)
             lineQueue.Enqueue(line);
 
-        KittyController.instance.enabled = false; // Assuming you have a singleton PlayerController
+        StartCoroutine(DisplayDialogue());
+    }
+
+    private IEnumerator DisplayDialogue()
+    {
+        while (lineQueue.Count > 0)
+        {
+            DisplayNextLine();
+            yield return new WaitForSeconds(3);
+        }
         DisplayNextLine();
     }
 
@@ -63,7 +76,24 @@ public class DialogueManager : MonoBehaviour
         nameText.text = currentLine.speakerName;
         portraitImage.sprite = currentLine.portrait;
 
-        typingCoroutine = StartCoroutine(TypeText(currentLine.text));
+        if (!string.IsNullOrEmpty(currentLine.requiredItemName) &&
+            !Inventory.Instance.HasItem(currentLine.requiredItemName))
+        {
+            momMeow.Play();
+            typingCoroutine = StartCoroutine(TypeText(currentLine.missingItemText));
+        }
+        else
+        {
+            if (currentLine.meowerType == MeowerType.Mom)
+            {
+                momMeow.Play();
+            }
+            else
+            {
+                kittenMeow.Play();
+            }
+            typingCoroutine = StartCoroutine(TypeText(currentLine.text));
+        }
     }
 
     IEnumerator TypeText(string text)
@@ -83,15 +113,6 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         dialogueBox.SetActive(false);
-        KittyController.instance.enabled = true;
-    }
-
-    private void Update()
-    {
-        if (dialogueBox.activeSelf && (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Space)))
-        {
-            DisplayNextLine();
-        }
     }
 }
 
