@@ -11,7 +11,12 @@ public class FirstMenuUI : MonoBehaviour
 
     private void Awake()
     {
+        continueButton.gameObject.SetActive(SaveSystem.HasGameStarted());
         newGameButton.onClick.AddListener(() =>
+        {
+            LevelMenuUI.Instance.Show();
+        });
+        continueButton.onClick.AddListener(() =>
         {
             LevelMenuUI.Instance.Show();
         });
