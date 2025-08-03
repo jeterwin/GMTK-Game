@@ -13,10 +13,14 @@ public class SwingInteractable : MonoBehaviour, IInteractable
     private float time = 0f;
     private bool isSwinging = false;
 
+    private Quaternion baseRotation;
+
+
     [SerializeField] SphereCollider swingCollider;
 
     void Start()
     {
+        baseRotation = swingArm.localRotation;
         KittyController.instance.swingArm = swingArm;
     }
 
@@ -31,7 +35,7 @@ public class SwingInteractable : MonoBehaviour, IInteractable
 
         float angle = Mathf.Sin(time) * currentAmplitude;
         Vector3 currentEuler = swingArm.localEulerAngles;
-        swingArm.localRotation = Quaternion.Euler(angle, currentEuler.y, currentEuler.z);
+        swingArm.localRotation = baseRotation * Quaternion.Euler(angle, 0f, 0f);
 
         // Stop swinging when amplitude is very small
         if (Mathf.Abs(currentAmplitude) < 0.1f)
@@ -41,12 +45,21 @@ public class SwingInteractable : MonoBehaviour, IInteractable
         }
     }
 
+    public float interactCooldown = 1f;
+    private float lastInteractTime = -Mathf.Infinity;
+
     public void Interact(GameObject caller)
     {
+        if (Time.time - lastInteractTime < interactCooldown)
+            return; // Still in cooldown
+
+        lastInteractTime = Time.time;
         isSwinging = true;
 
         // Increase amplitude, capped at maxSwingAngle
         currentAmplitude += pushIncrement;
-        currentAmplitude = Mathf.Clamp(currentAmplitude, 0f, maxSwingAngle);
+        currentAmplitude = Mathf.Clamp(currentAmplitude, -maxSwingAngle, maxSwingAngle);
+
     }
+
 }

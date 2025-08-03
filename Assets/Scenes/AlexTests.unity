@@ -10898,10 +10898,11 @@ MonoBehaviour:
   swingArm: {fileID: 1909540642}
   maxSwingAngle: 120
   swingSpeed: 2
-  pushIncrement: 5
-  dampingSpeed: 1
+  pushIncrement: 20
+  dampingSpeed: 2
   currentAmplitude: 0
   swingCollider: {fileID: 0}
+  interactCooldown: 1
 --- !u!135 &1909540644
 SphereCollider:
   m_ObjectHideFlags: 0
