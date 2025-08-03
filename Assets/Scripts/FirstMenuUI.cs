@@ -18,7 +18,7 @@ public class FirstMenuUI : MonoBehaviour
         newGameButton.onClick.AddListener(() =>
         {
             SaveSystem.InitNewGame();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Loader.Load(Loader.Scene.Level1);
         });
 
 
