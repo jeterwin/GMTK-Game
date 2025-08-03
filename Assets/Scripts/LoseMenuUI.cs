@@ -8,7 +8,7 @@ public class LoseMenuUI : MonoBehaviour
 
     private void Awake()
     {
-        //Hide();
+        Hide();
         mainMenuButton.onClick.AddListener(() =>
         {
             SceneManager.LoadScene(0);
