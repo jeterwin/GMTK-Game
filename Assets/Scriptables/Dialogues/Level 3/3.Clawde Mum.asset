@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lines:
   - speakerName: Mum
-    requiredItemName: Axe
-    missingItemText: If only I could chop the wood with something...
+    requiredItemName: 
+    missingItemText: 
     text: 'Wrong feline, darling...
 
       (E - bring Simba back to reality)'

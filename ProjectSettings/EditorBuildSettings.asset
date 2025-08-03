@@ -9,8 +9,17 @@ EditorBuildSettings:
     path: Assets/Scenes/FirstMenu.unity
     guid: a8a72b4b1daf6764d89d5251b4e40e0d
   - enabled: 1
-    path: Assets/Scenes/AlexTests.unity
-    guid: a062e95253a5dd74cba207166f08aaba
+    path: Assets/Scenes/Level1.unity
+    guid: 8ecde0ff3e625cb4e96012c3e333ab78
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: 814e023777e6ee248949dbcb67f5ec44
+  - enabled: 1
+    path: Assets/Scenes/Level3.unity
+    guid: 7c46e301c54f0e549bd8ed897c268717
+  - enabled: 1
+    path: Assets/Scenes/Level4.unity
+    guid: 129beb6b6a86c8948999aede5a282dd9
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

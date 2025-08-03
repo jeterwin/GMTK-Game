@@ -92,6 +92,7 @@ public class TimeManager : MonoBehaviour
         {
             if (!playerRecorder.isRewinding)
             {
+                DialogueManager.Instance.dialogueBox.SetActive(false);
                 Time.timeScale = 0;
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
