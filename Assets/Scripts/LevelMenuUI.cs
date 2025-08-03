@@ -52,6 +52,7 @@ public class LevelMenuUI : MonoBehaviour
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        SceneManager.LoadScene(levelIndex);
+        Loader.Load((Loader.Scene)levelIndex);
+
     }
 }
