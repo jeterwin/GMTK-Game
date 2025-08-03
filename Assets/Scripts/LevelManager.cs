@@ -6,6 +6,7 @@ public class LevelManager : MonoBehaviour
 
     public int level;
     [SerializeField] LevelsDatabase levelsDatabase;
+    [SerializeField] GameObject winScreen;
 
     private int kittensTotal;
     public int timeLimit;
@@ -18,18 +19,15 @@ public class LevelManager : MonoBehaviour
         timeLimit = levelsDatabase.GetTimeLimit(level);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void KittenFound()
     {
         kittensFound++;
         if (kittensFound >= kittensTotal)
         {
-            // TO DO
+            Time.timeScale = 0;
+            winScreen.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 }

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Axe
   m_EditorClassIdentifier: 
   itemName: Axe
-  icon: {fileID: 21300000, guid: 310841ffe68ab634c83e228e2c7fde93, type: 3}
+  icon: {fileID: 21300000, guid: c31883089fff06d4f90a4a2dbcc6ddfa, type: 3}

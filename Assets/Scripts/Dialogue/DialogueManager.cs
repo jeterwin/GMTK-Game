@@ -23,6 +23,7 @@ public class DialogueManager : MonoBehaviour
     private bool isTyping = false;
     private DialogueLine currentLine;
     private Coroutine typingCoroutine;
+    public bool shouldStart = true;
 
     private void Awake()
     {
@@ -37,13 +38,16 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(DialogueData data)
     {
-        dialogueBox.SetActive(true);
-        lineQueue.Clear();
+        if (shouldStart)
+        {
+            dialogueBox.SetActive(true);
+            lineQueue.Clear();
 
-        foreach (var line in data.lines)
-            lineQueue.Enqueue(line);
+            foreach (var line in data.lines)
+                lineQueue.Enqueue(line);
 
-        StartCoroutine(DisplayDialogue());
+            StartCoroutine(DisplayDialogue());
+        }
     }
 
     private IEnumerator DisplayDialogue()

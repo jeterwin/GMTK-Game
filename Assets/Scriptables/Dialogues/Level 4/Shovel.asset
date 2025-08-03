@@ -16,9 +16,8 @@ MonoBehaviour:
   - speakerName: Mum
     requiredItemName: 
     missingItemText: 
-    text: 'Makes digging way easies... if you have hands...
+    text: 'Makes digging way easier... if you have hands...
 
-      (E - try using
-      it anyways)'
+      (E - dig in)'
     portrait: {fileID: 21300000, guid: 1468cb9f5572d644abc89c81c6d60d5f, type: 3}
     meowerType: 0

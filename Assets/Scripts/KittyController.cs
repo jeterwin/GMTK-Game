@@ -61,7 +61,14 @@ public class KittyController : MonoBehaviour
     public float smoothTime = 0.05f;  // tweak this value to your liking
     public float speedMultiplier = 1f;
 
+    public bool isOnSwing = false;
+
     public AudioSource runSound;
+
+    public Transform swingArm;
+    public float swingReattachCooldown = 1f;
+    private float lastSwingDetachTime = -Mathf.Infinity;
+
 
     private void Awake()
     {
@@ -130,9 +137,14 @@ public class KittyController : MonoBehaviour
             runSound.pitch = .7f;
         }
 
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        if (Input.GetButtonDown("Jump") && IsGrounded() && !isOnSwing)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+
+        if (isOnSwing && Input.GetButtonDown("Jump"))
+        {
+            JumpOffSwing();
         }
     }
 
@@ -167,6 +179,30 @@ public class KittyController : MonoBehaviour
             rb.linearVelocity *= (1f - airDrag * Time.fixedDeltaTime);  // air drag stays same
         }
     }
+
+    public void AttachToSwing()
+    {
+        isOnSwing = true;
+        rb.isKinematic = true; // Disable physics to follow swing cleanly
+        transform.SetParent(swingArm);
+    }
+
+    public bool CanReattachToSwing()
+    {
+        return Time.time - lastSwingDetachTime > swingReattachCooldown;
+    }
+
+    public void JumpOffSwing()
+    {
+        isOnSwing = false;
+        transform.SetParent(null);
+        rb.isKinematic = false;
+
+        rb.linearVelocity = swingArm.forward * -14f + Vector3.up * 7f;
+
+        lastSwingDetachTime = Time.time;
+    }
+
 
 
     void HandleMouseLook()

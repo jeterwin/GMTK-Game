@@ -19,6 +19,8 @@ public class TimeManager : MonoBehaviour
     public bool decreaseTime;
     [SerializeField] AudioSource music;
     public float decreaseTimeMultiplier = 1f;
+    [SerializeField] GameObject loseScreen;
+    [SerializeField] PlayerRecorder playerRecorder;
 
     private void Awake()
     {
@@ -29,6 +31,7 @@ public class TimeManager : MonoBehaviour
     void Start()
     {
         timeLimit = LevelManager.Instance.timeLimit;
+        remainingTime = timeLimit;
         decreaseTime = false;
         countdownText.text = countdownTime.ToString("F1") + "s"; // Display initial countdown time with 1 decimal place   
         timeText.text = timeLimit.ToString("F2") + "s"; // Display initial time limit with 2 decimal places
@@ -84,6 +87,16 @@ public class TimeManager : MonoBehaviour
                 timeAnimator.Play("Time Flash", -1, 0);
             }
             timeText.color = GetTimeColor(remainingTime, timeLimit); // Update text color based on remaining time
+        }
+        else
+        {
+            if (!playerRecorder.isRewinding)
+            {
+                Time.timeScale = 0;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                loseScreen.SetActive(true); // Show lose screen when time runs out
+            }
         }
     }
 

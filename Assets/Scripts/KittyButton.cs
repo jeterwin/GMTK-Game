@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,8 +10,11 @@ public class KittyButton : MonoBehaviour, IInteractable
 
     public void Interact(GameObject caller)
     {
-        Debug.Log($"{caller.name} interacted with the button!");
-        OnInteract?.Invoke();
+        if (!KittyController.instance.isOnSwing)
+        {
+            Debug.Log($"{caller.name} interacted with the button!");
+            OnInteract?.Invoke();
+        }
     }
 
     void Update()
@@ -39,6 +43,7 @@ public class KittyButton : MonoBehaviour, IInteractable
 
     public void InteractedWithKitten()
     {
+        DialogueManager.Instance.kittenMeow.Play(); // Play the kitten meow sound
         LevelManager.Instance.KittenFound();
         Destroy(gameObject); // Destroy the button after interaction
     }
